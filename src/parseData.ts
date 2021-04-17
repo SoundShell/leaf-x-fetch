@@ -1,13 +1,13 @@
 import {
   ParseData,
-  ParseJSON,
+  ParseJson,
   ParseText
 } from './interface/parseData.interface'
 
-const parseJSON: ParseJSON = (response) => response.json()
+const parseJson: ParseJson = (response) => response.json()
 const parseText: ParseText = (response) => response.text()
 
 export const parseData: ParseData = (response) =>
   response.headers.get('content-type')?.startsWith('application/json')
-    ? parseJSON(response)
+    ? parseJson(response)
     : parseText(response)

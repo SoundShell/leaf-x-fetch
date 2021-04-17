@@ -1,7 +1,7 @@
 import * as assert from 'assert'
 import { parseData } from '../src/parseData'
 
-describe('test/parseData.ts', () => {
+describe('test/parseData.test.ts', () => {
   it('Should be the JSON data result of the response.', async () => {
     const response = {
       json: async () => ({ ok: true }),

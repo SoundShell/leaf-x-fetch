@@ -1,7 +1,7 @@
 import * as assert from 'assert'
 import { checkStatus } from '../src/checkStatus'
 
-describe('test/checkStatus.ts', () => {
+describe('test/checkStatus.test.ts', () => {
   it('Should be the correct response status code result.', async () => {
     const response = { ok: true } as Response
     const result = checkStatus(response)

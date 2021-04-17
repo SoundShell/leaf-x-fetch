@@ -1,7 +1,7 @@
 /**
  * Parse to JSON data.
  */
-export interface ParseJSON {
+export interface ParseJson {
   (response: Response): Promise<Record<string, unknown>>
 }
 

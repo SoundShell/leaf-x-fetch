@@ -1,8 +1,9 @@
 {
   "name": "@leaf-x/fetch",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "main": "./dist/index.js",
   "author": "sound shell <sound_shell@outlook.com>",
+  "description": "Provide some utility wrappers for fetch.",
   "license": "MIT",
   "readmeFilename": "README.md",
   "repository": {
