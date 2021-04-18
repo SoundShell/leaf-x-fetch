@@ -15,15 +15,22 @@ export const handleResponse: HandleResponse = (options) => async (response) => {
     Object.assign(headers, { [key]: response.headers.get(key) })
   }
 
-  return ((headers['content-type'] as string)?.startsWith('application/json')
-    ? parseJson(response)
-    : parseText(response)
-  ).then((data: unknown) => ({
-    data,
+  const type = headers['content-type'] as string
+  const responseOptions = {
     status,
     statusText,
     headers,
     url,
     options: options ?? {}
-  }))
+  }
+
+  if (type?.startsWith('application/json')) {
+    return parseJson(response).then((data) => ({ data, ...responseOptions }))
+  }
+
+  if (type?.startsWith('application/octet-stream')) {
+    return parseJson(response).then((data) => ({ data, ...responseOptions }))
+  }
+
+  return parseText(response).then((data) => ({ data, ...responseOptions }))
 }

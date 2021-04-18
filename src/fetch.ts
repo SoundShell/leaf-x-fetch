@@ -7,7 +7,10 @@ import { checkStatus } from './status'
 export const fetch: Fetch = async (url, options) => {
   const {
     timeout = 3000,
-    headers = { 'content-type': 'application/json', accept: '*/*' },
+    headers = {
+      'content-type': 'application/json; charset=utf-8',
+      accept: '*/*'
+    },
     method = 'GET',
     ...args
   } = options ?? {}
