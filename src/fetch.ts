@@ -1,8 +1,8 @@
 import AbortController from 'abort-controller'
 import * as isomorphicFetch from 'isomorphic-fetch'
-import { checkStatus } from './checkStatus'
 import { Fetch } from './interface/fetch.interface'
-import { parseResponse } from './parseResponse'
+import { handleResponse } from './response'
+import { checkStatus } from './status'
 
 export const fetch: Fetch = async (url, options) => {
   const {
@@ -13,11 +13,11 @@ export const fetch: Fetch = async (url, options) => {
   } = options ?? {}
 
   const initOptions = { method, headers, ...args }
-  const response = parseResponse({ timeout, ...initOptions })
-  const controller = new AbortController()
-  const signal = controller.signal
+  const response = handleResponse({ timeout, ...initOptions })
+  const abortController = new AbortController()
+  const signal = abortController.signal
 
-  setTimeout(() => controller.abort(), timeout)
+  setTimeout(() => abortController.abort(), timeout)
 
   try {
     return await isomorphicFetch(url, { signal, ...initOptions })

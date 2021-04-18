@@ -1,8 +1,8 @@
 import { fetch } from './src/fetch'
-export * from './src/checkStatus'
-export * from './src/interface/checkStatus.interface'
 export * from './src/interface/fetch.interface'
-export * from './src/interface/parseResponse.interface'
-export * from './src/parseResponse'
+export * from './src/interface/response.interface'
+export * from './src/interface/status.interface'
+export * from './src/response'
+export * from './src/status'
 
 export default fetch

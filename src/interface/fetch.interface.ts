@@ -1,4 +1,4 @@
-import { ParseResponseResult } from './parseResponse.interface'
+import { HandleResponseResult } from './response.interface'
 
 /**
  *  Fetch options.
@@ -14,5 +14,5 @@ export interface FetchOptions extends RequestInit {
  * Fetch API.
  */
 export interface Fetch {
-  (url: string, options?: FetchOptions): Promise<ParseResponseResult | never>
+  (url: string, options?: FetchOptions): Promise<HandleResponseResult | never>
 }

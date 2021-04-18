@@ -1,4 +1,4 @@
-import { CheckStatus } from './interface/checkStatus.interface'
+import { CheckStatus } from './interface/status.interface'
 
 export const checkStatus: CheckStatus = (response) => {
   if (response.ok) {
