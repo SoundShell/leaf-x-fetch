@@ -1,14 +1,14 @@
 import { FetchOptions } from './fetch.interface'
 
 /**
- * Parse to JSON data.
+ * Parse to JSON.
  */
 export interface ParseJson {
   (response: Response): Promise<Record<string, unknown>>
 }
 
 /**
- * Parse to text data.
+ * Parse to text.
  */
 export interface ParseText {
   (response: Response): Promise<string>
@@ -17,7 +17,7 @@ export interface ParseText {
 /**
  * Parse the response results.
  */
-export interface ParseDataResult {
+export interface ParseResponseResult {
   /**
    * Response data.
    */
@@ -54,5 +54,5 @@ export interface ParseDataResult {
  * Parse the response.
  */
 export interface ParsResponse {
-  (options?: FetchOptions): (response: Response) => Promise<ParseDataResult>
+  (options?: FetchOptions): (response: Response) => Promise<ParseResponseResult>
 }
