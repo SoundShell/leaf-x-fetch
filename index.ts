@@ -1,7 +1,8 @@
 export * from './src/checkStatus'
 export * from './src/interface/checkStatus.interface'
 export * from './src/interface/fetch.interface'
-export * from './src/interface/parseData.interface'
-export * from './src/parseData'
+export * from './src/interface/parseResponse.interface'
+export * from './src/parseResponse'
+import { fetch } from './src/fetch'
 
-export default './src/fetch'
+export default fetch

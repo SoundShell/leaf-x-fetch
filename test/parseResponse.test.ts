@@ -1,7 +1,7 @@
 import * as assert from 'assert'
-import { parseData } from '../src/parseData'
+import { parseResponse } from '../src/parseResponse'
 
-describe('test/parseData.test.ts', () => {
+describe('test/parseResponse.test.ts', () => {
   it('Should be the JSON data result of the response.', async () => {
     const response = {
       json: async () => ({ ok: true }),
@@ -14,9 +14,9 @@ describe('test/parseData.test.ts', () => {
       }
     } as Response
 
-    const result = (await parseData(response)) as Record<string, unknown>
+    const result = await parseResponse()(response)
 
-    assert(result.ok)
+    assert((result.data as Record<string, unknown>).ok)
   })
 
   it('Should be the text data result of the response.', async () => {
@@ -31,8 +31,8 @@ describe('test/parseData.test.ts', () => {
       }
     } as Response
 
-    const result = (await parseData(response)) as string
+    const result = await parseResponse()(response)
 
-    assert(result === 'ok')
+    assert(result.data === 'ok')
   })
 })
