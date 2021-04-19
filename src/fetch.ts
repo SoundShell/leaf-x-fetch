@@ -15,15 +15,15 @@ export const fetch: Fetch = async (url, options) => {
     ...args
   } = options ?? {}
 
-  const initOptions = { method, headers, ...args }
-  const response = handleResponse({ timeout, ...initOptions })
+  const requestOptions = { method, headers, ...args }
+  const response = handleResponse({ timeout, ...requestOptions })
   const abortController = new AbortController()
   const signal = abortController.signal
 
   setTimeout(() => abortController.abort(), timeout)
 
   try {
-    return await isomorphicFetch(url, { signal, ...initOptions })
+    return await isomorphicFetch(url, { signal, ...requestOptions })
       .then(checkStatus)
       .then(response)
   } catch (error) {
