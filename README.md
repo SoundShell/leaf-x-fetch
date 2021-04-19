@@ -1,4 +1,4 @@
-# @leaf-x/fetch
+# Fetch
 
 Provide some utility wrappers for fetch.
 
@@ -9,7 +9,7 @@ Provide some utility wrappers for fetch.
 ## Usage
 
 ```typescript
-import fetch from '@leaf-x/fetch'
+import * as fetch from '@leaf-x/fetch'
 
 await fetch('https://www.bing.com').then((response) => {
   console.info(response)
