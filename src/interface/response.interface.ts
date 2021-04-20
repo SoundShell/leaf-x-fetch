@@ -3,7 +3,8 @@ import { FetchOptions } from './fetch.interface'
 /**
  * Parsed to JSON.
  *
- * @param Response This Fetch API interface represents the response to a request.
+ * @param response Response
+ * @return Promise<Record<string, unknown>>
  */
 export interface ParseJson {
   (response: Response): Promise<Record<string, unknown>>
@@ -12,7 +13,8 @@ export interface ParseJson {
 /**
  * Parse to text.
  *
- * @param Response This Fetch API interface represents the response to a request.
+ * @param response Response
+ * @return Promise<string>
  */
 export interface ParseText {
   (response: Response): Promise<string>
@@ -33,7 +35,7 @@ export interface HandleResponseResult {
   headers: Record<string, unknown>
 
   /**
-   * Request response status..
+   * Request response status.
    */
   status: number
 
@@ -51,16 +53,18 @@ export interface HandleResponseResult {
 /**
  * Initialize the handling request response.
  *
- * @param options Initialize the fetch options.
+ * @param options FetchOptions
+ * @return HandleResponse
  */
 export interface InitHandleResponse {
   (options?: FetchOptions): HandleResponse
 }
 
 /**
- * Handles the request response.
+ * Handle the request response.
  *
- * @param This Fetch API interface represents the response to a request.
+ * @param response Response
+ * @return HandleResponseResult
  */
 export interface HandleResponse {
   (response: Response): Promise<HandleResponseResult>
