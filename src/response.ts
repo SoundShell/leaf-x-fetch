@@ -1,5 +1,5 @@
 import {
-  HandleResponse,
+  InitHandleResponse,
   ParseJson,
   ParseText
 } from './interface/response.interface'
@@ -7,7 +7,9 @@ import {
 const parseJson: ParseJson = (response) => response.json()
 const parseText: ParseText = (response) => response.text()
 
-export const handleResponse: HandleResponse = (options) => async (response) => {
+export const initHandleResponse: InitHandleResponse = (options) => async (
+  response
+) => {
   const { status, statusText, url } = response
   const headers = {} as Record<string, unknown>
 

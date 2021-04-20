@@ -9,7 +9,7 @@ describe('test/status.test.ts', () => {
     assert(result.ok)
   })
 
-  it('Should be the result of an incorrect response status code.', async () => {
+  it('Should be the result of an error response status code.', async () => {
     try {
       const response = {
         ok: false,
