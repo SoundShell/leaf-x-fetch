@@ -22,13 +22,23 @@ describe('test/response.test.ts', () => {
     assert(result.data === 'ok')
   })
 
-  it('Should be the result of the response stream data.', async () => {
-    const response = new Response(Buffer.from(JSON.stringify({})), {
+  it('Should be the result of the response stream JSON data.', async () => {
+    const response = new Response(JSON.stringify({}), {
       headers: { 'content-type': 'application/octet-stream; charset=utf-8' }
     })
 
     const result = await initHandleResponse()(response)
 
     assert(typeof result.data === 'object')
+  })
+
+  it('Should be the result of the response stream text data.', async () => {
+    const response = new Response('', {
+      headers: { 'content-type': 'application/octet-stream; charset=utf-8' }
+    })
+
+    const result = await initHandleResponse()(response)
+
+    assert(typeof result.data === 'string')
   })
 })

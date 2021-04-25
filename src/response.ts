@@ -31,7 +31,17 @@ export const initHandleResponse: InitHandleResponse = (options) => async (
   }
 
   if (type?.startsWith('application/octet-stream')) {
-    return parseJson(response).then((data) => ({ data, ...responseOptions }))
+    return parseText(response).then((data) => {
+      let result!: unknown
+
+      try {
+        result = JSON.parse(data)
+      } catch (error) {
+        result = data
+      }
+
+      return { data: result, ...responseOptions }
+    })
   }
 
   return parseText(response).then((data) => ({ data, ...responseOptions }))
