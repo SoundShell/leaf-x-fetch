@@ -1,5 +1,5 @@
 /**
- * Check the request response status.
+ * Check the response status.
  *
  * @param response Response
  * @return Response | never

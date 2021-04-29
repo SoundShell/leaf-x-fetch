@@ -7,6 +7,25 @@ import {
 const parseJson: ParseJson = (response) => response.json()
 const parseText: ParseText = (response) => response.text()
 
+const handleText = (options) => (response) =>
+  parseJson(response).then((data) => ({ data, ...options }))
+
+const handleJson = (options) => (response) =>
+  parseJson(response).then((data) => ({ data, ...options }))
+
+const handleOctetStream = (options) => (response) =>
+  parseText(response).then((data) => {
+    let result!: unknown
+
+    try {
+      result = JSON.parse(data)
+    } catch (error) {
+      result = data
+    }
+
+    return { data: result, ...options }
+  })
+
 export const initHandleResponse: InitHandleResponse = (options) => async (
   response
 ) => {
@@ -17,7 +36,7 @@ export const initHandleResponse: InitHandleResponse = (options) => async (
     Object.assign(headers, { [key]: response.headers.get(key) })
   }
 
-  const type = headers['content-type'] as string
+  const contentType = headers['content-type'] as string
   const responseOptions = {
     status,
     statusText,
@@ -26,23 +45,13 @@ export const initHandleResponse: InitHandleResponse = (options) => async (
     options: options ?? {}
   }
 
-  if (type?.startsWith('application/json')) {
-    return parseJson(response).then((data) => ({ data, ...responseOptions }))
+  if (contentType?.startsWith('application/json')) {
+    return handleJson(responseOptions)(response)
   }
 
-  if (type?.startsWith('application/octet-stream')) {
-    return parseText(response).then((data) => {
-      let result!: unknown
-
-      try {
-        result = JSON.parse(data)
-      } catch (error) {
-        result = data
-      }
-
-      return { data: result, ...responseOptions }
-    })
+  if (contentType?.startsWith('application/octet-stream')) {
+    return handleOctetStream(responseOptions)(response)
   }
 
-  return parseText(response).then((data) => ({ data, ...responseOptions }))
+  return handleText(responseOptions)(response)
 }

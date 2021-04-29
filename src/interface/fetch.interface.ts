@@ -2,10 +2,14 @@ import { HandleResponseResult } from './response.interface'
 
 /**
  * Initialize the fetch options.
+ *
+ * @extends RequestInit
  */
 export interface FetchOptions extends RequestInit {
   /**
-   * The request timeout time in milliseconds.
+   * The request timeout period, in milliseconds.
+   *
+   * Default: 3000ms
    */
   timeout?: number
 }
