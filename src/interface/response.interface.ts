@@ -93,9 +93,6 @@ export interface ProcessResponse {
  * @extends ResponseOptions
  */
 export interface InitProcessBodyOptions extends ResponseOptions {
-  /**
-   * Initialize the fetch options.
-   */
   options: FetchOptions
 }
 
@@ -118,19 +115,8 @@ export interface ProcessBody {
  * Processing body method.
  */
 export interface ProcessingBodyMethod {
-  /**
-   * Parse JSON data.
-   */
   JSON: ParseJson
-
-  /**
-   * Parse text data.
-   */
   TEXT: ParseText
-
-  /**
-   * Parse octet stream data.
-   */
   OCTET_STREAM: ParseOctetStream
 }
 
