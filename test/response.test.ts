@@ -1,44 +1,70 @@
 import * as assert from 'assert'
-import { initHandleResponse } from '../src/response'
+import { initProcessResponse } from '../src/response'
 
 describe('test/response.test.ts', () => {
-  it('Should be the result of responding to JSON data.', async () => {
+  it('should be the result of the processing response JSON data', async () => {
     const response = new Response(JSON.stringify({}), {
       headers: { 'content-type': 'application/json; charset=utf-8' }
     })
 
-    const result = await initHandleResponse()(response)
+    const process = initProcessResponse()
+    const result = await process(response)
 
     assert(typeof result.data === 'object')
   })
 
-  it('Should be the result of responding to text data.', async () => {
-    const response = new Response('ok')
+  it('should be the result of dealing with the response text data', async () => {
+    const response = new Response('ok', {
+      headers: { 'content-type': 'text/plain; charset=utf-8' }
+    })
 
-    response.headers.delete('content-type')
-
-    const result = await initHandleResponse()(response)
+    const process = initProcessResponse()
+    const result = await process(response)
 
     assert(result.data === 'ok')
   })
 
-  it('Should be the result of the response stream JSON data.', async () => {
-    const response = new Response(JSON.stringify({}), {
+  it('should be the result of the processing response octet stream and convert to JSON data', async () => {
+    const response = new Response(Buffer.from(JSON.stringify({})), {
       headers: { 'content-type': 'application/octet-stream; charset=utf-8' }
     })
 
-    const result = await initHandleResponse()(response)
+    const process = initProcessResponse()
+    const result = await process(response)
 
     assert(typeof result.data === 'object')
   })
 
-  it('Should be the result of the response stream text data.', async () => {
-    const response = new Response('', {
+  it('should be the result of the processing response octet stream and convert to text data', async () => {
+    const response = new Response(Buffer.from(''), {
       headers: { 'content-type': 'application/octet-stream; charset=utf-8' }
     })
 
-    const result = await initHandleResponse()(response)
+    const process = initProcessResponse()
+    const result = await process(response)
 
     assert(typeof result.data === 'string')
+  })
+
+  it('should be the result of the processing response to other data types', async () => {
+    const response = new Response('ok', {
+      headers: { 'content-type': 'text/html; charset=utf-8' }
+    })
+
+    const process = initProcessResponse()
+    const result = await process(response)
+
+    assert(result.data === 'ok')
+  })
+
+  it('should be the result of the processing response without data type', async () => {
+    const response = new Response('ok')
+
+    response.headers.delete('content-type')
+
+    const process = initProcessResponse()
+    const result = await process(response)
+
+    assert(result.data === 'ok')
   })
 })

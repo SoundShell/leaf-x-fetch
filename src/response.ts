@@ -1,32 +1,42 @@
 import {
-  InitHandleResponse,
+  InitProcessBody,
+  InitProcessResponse,
   ParseJson,
-  ParseText
+  ParseOctetStream,
+  ParseText,
+  ProcessingBodyMethod
 } from './interface/response.interface'
 
-const parseJson: ParseJson = (response) => response.json()
-const parseText: ParseText = (response) => response.text()
-
-const handleText = (options) => (response) =>
-  parseJson(response).then((data) => ({ data, ...options }))
-
-const handleJson = (options) => (response) =>
-  parseJson(response).then((data) => ({ data, ...options }))
-
-const handleOctetStream = (options) => (response) =>
-  parseText(response).then((data) => {
-    let result!: unknown
+const parseJson: ParseJson = async (response) => response.json()
+const parseText: ParseText = async (response) => response.text()
+const parseOctetStream: ParseOctetStream = async (response) =>
+  response.text().then((body) => {
+    let data!: Record<string, unknown> | string
 
     try {
-      result = JSON.parse(data)
+      data = JSON.parse(body)
     } catch (error) {
-      result = data
+      data = body
     }
 
-    return { data: result, ...options }
+    return data
   })
 
-export const initHandleResponse: InitHandleResponse = (options) => async (
+const initProcessBody: InitProcessBody = (options, response) => async (
+  type = 'TEXT'
+) => {
+  const processingBodyMethod: ProcessingBodyMethod = Object.freeze({
+    JSON: parseJson,
+    TEXT: parseText,
+    OCTET_STREAM: parseOctetStream
+  })
+
+  return processingBodyMethod[type](response).then((data) =>
+    Object.assign({}, options, { data })
+  )
+}
+
+export const initProcessResponse: InitProcessResponse = (options) => async (
   response
 ) => {
   const { status, statusText, url } = response
@@ -36,7 +46,6 @@ export const initHandleResponse: InitHandleResponse = (options) => async (
     Object.assign(headers, { [key]: response.headers.get(key) })
   }
 
-  const contentType = headers['content-type'] as string
   const responseOptions = {
     status,
     statusText,
@@ -45,13 +54,20 @@ export const initHandleResponse: InitHandleResponse = (options) => async (
     options: options ?? {}
   }
 
+  const contentType = headers['content-type'] as string
+  const processBody = initProcessBody(responseOptions, response)
+
   if (contentType?.startsWith('application/json')) {
-    return handleJson(responseOptions)(response)
+    return processBody('JSON')
   }
 
   if (contentType?.startsWith('application/octet-stream')) {
-    return handleOctetStream(responseOptions)(response)
+    return processBody('OCTET_STREAM')
   }
 
-  return handleText(responseOptions)(response)
+  if (contentType?.startsWith('text/plain')) {
+    return processBody('TEXT')
+  }
+
+  return processBody()
 }

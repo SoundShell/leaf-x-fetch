@@ -1,4 +1,4 @@
-import { HandleResponseResult } from './response.interface'
+import { ProcessResponseResult } from './response.interface'
 
 /**
  * Initialize the fetch options.
@@ -22,5 +22,5 @@ export interface FetchOptions extends RequestInit {
  * @return Promise<HandleResponseResult | never>
  */
 export interface Fetch {
-  (url: string, options?: FetchOptions): Promise<HandleResponseResult | never>
+  (url: string, options?: FetchOptions): Promise<ProcessResponseResult | never>
 }
