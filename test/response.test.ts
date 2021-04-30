@@ -13,7 +13,7 @@ describe('test/response.test.ts', () => {
     assert(typeof result.data === 'object')
   })
 
-  it('should be the result of dealing with the response text data', async () => {
+  it('should be the result of the processing response text data', async () => {
     const response = new Response('ok', {
       headers: { 'content-type': 'text/plain; charset=utf-8' }
     })
