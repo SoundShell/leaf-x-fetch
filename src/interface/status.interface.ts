@@ -2,8 +2,8 @@
  * Check the response status.
  *
  * @param response Response
- * @return Response | never
+ * @return Response
  */
 export interface CheckStatus {
-  (response: Response): Response | never
+  (response: Response): Response
 }

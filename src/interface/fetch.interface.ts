@@ -19,8 +19,8 @@ export interface FetchOptions extends RequestInit {
  *
  * @param url       Request URL address.
  * @param options   FetchOptions
- * @return Promise<HandleResponseResult | never>
+ * @return Promise<HandleResponseResult>
  */
 export interface Fetch {
-  (url: string, options?: FetchOptions): Promise<ProcessResponseResult | never>
+  (url: string, options?: FetchOptions): Promise<ProcessResponseResult>
 }
