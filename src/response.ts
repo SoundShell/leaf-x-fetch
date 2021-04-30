@@ -1,3 +1,4 @@
+import { ContentType as ContentTypeEnum } from './enum/contentType.enum'
 import {
   InitProcessBody,
   InitProcessResponse,
@@ -26,12 +27,12 @@ const initProcessBody: InitProcessBody = (options, response) => async (
   type = 'TEXT'
 ) => {
   const processingBodyMethod: ProcessingBodyMethod = Object.freeze({
-    JSON: parseJson,
-    TEXT: parseText,
-    OCTET_STREAM: parseOctetStream
+    json: parseJson,
+    text: parseText,
+    octetStream: parseOctetStream
   })
 
-  return processingBodyMethod[type](response).then((data) =>
+  return processingBodyMethod[ContentTypeEnum[type]](response).then((data) =>
     Object.assign({}, options, { data })
   )
 }

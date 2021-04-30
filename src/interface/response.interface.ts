@@ -115,9 +115,9 @@ export interface ProcessBody {
  * Processing body method.
  */
 export interface ProcessingBodyMethod {
-  JSON: ParseJson
-  TEXT: ParseText
-  OCTET_STREAM: ParseOctetStream
+  readonly json: ParseJson
+  readonly text: ParseText
+  readonly octetStream: ParseOctetStream
 }
 
 /**
