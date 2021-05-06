@@ -8,7 +8,7 @@ describe('test/fetch.test.ts', () => {
     assert(typeof result.data === 'string')
   })
 
-  it('should be the result of the custom options', async () => {
+  it('should be the result of a custom options', async () => {
     const result = await fetch('https://www.bing.com', { timeout: 3000 })
 
     assert(typeof result.data === 'string')
@@ -22,7 +22,7 @@ describe('test/fetch.test.ts', () => {
     assert(result.status === 404)
   })
 
-  it('should be the result of the request timeout', async () => {
+  it('should be the result of a request timeout', async () => {
     const result = await fetch('https://www.bing.com', {
       timeout: 1
     }).catch((err) => err)

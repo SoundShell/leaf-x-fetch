@@ -7,7 +7,7 @@ import { HandleResponseResult } from './response.interface'
  */
 export interface FetchOptions extends RequestInit {
   /**
-   * Request timeout, unit milliseconds.
+   * The request timeout time in milliseconds.
    *
    * Default 3000ms
    */
@@ -17,7 +17,7 @@ export interface FetchOptions extends RequestInit {
 /**
  * Fetch API.
  *
- * @param url       Request the URL address.
+ * @param url       Request URL address.
  * @param options   FetchOptions
  * @return Promise<HandleResponseResult>
  */

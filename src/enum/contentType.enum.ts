@@ -1,5 +1,5 @@
 /**
- * Content type.
+ * Request response content type.
  */
 export enum ContentType {
   JSON = 'json',
