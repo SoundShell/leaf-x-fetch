@@ -1,17 +1,17 @@
 import { FetchOptions } from './fetch.interface'
 
 /**
- * Parse JSON data.
+ * Parse the JSON.
  *
  * @param response Response
  * @return Promise<Record<string, unknown>>
  */
-export interface ParseJson {
+export interface ParseJSON {
   (response: Response): Promise<Record<string, unknown>>
 }
 
 /**
- * Parse text data.
+ * Parse the text.
  *
  * @param response Response
  * @return Promise<string>
@@ -21,7 +21,7 @@ export interface ParseText {
 }
 
 /**
- * Parse octet stream data.
+ * Parse the octet stream.
  *
  * @param response Response
  * @return Promise<Record<string, unknown> | string>
@@ -31,7 +31,7 @@ export interface ParseOctetStream {
 }
 
 /**
- * Response options
+ * Response options.
  */
 export interface ResponseOptions {
   /**
@@ -56,11 +56,11 @@ export interface ResponseOptions {
 }
 
 /**
- * Process the response result.
+ * Handle the response result.
  *
  * @extends ResponseOptions
  */
-export interface ProcessResponseResult extends ResponseOptions {
+export interface HandleResponseResult extends ResponseOptions {
   /**
    * Response data.
    */
@@ -68,65 +68,79 @@ export interface ProcessResponseResult extends ResponseOptions {
 }
 
 /**
- * Initialization process response.
+ * Initialization handle response.
  *
  * @param options FetchOptions
- * @return ProcessResponse
+ * @return HandleResponse
  */
-export interface InitProcessResponse {
-  (options?: FetchOptions): ProcessResponse
+export interface InitHandleResponse {
+  (options?: FetchOptions): HandleResponse
 }
 
 /**
- * Processing response.
+ * Handle response.
  *
  * @param response Response
- * @return Promise<ProcessResponseResult>
+ * @return Promise<HandleResponseResult>
  */
-export interface ProcessResponse {
-  (response: Response): Promise<ProcessResponseResult>
+export interface HandleResponse {
+  (response: Response): Promise<HandleResponseResult>
 }
 
 /**
- * Initialize processing body options.
+ * Initialization handle the body options.
  *
  * @extends ResponseOptions
  */
-export interface InitProcessBodyOptions extends ResponseOptions {
+export interface InitHandleBodyOptions extends ResponseOptions {
+  /**
+   * Fetch options.
+   */
   options: FetchOptions
 }
 
 /**
- * Process the body type.
+ * Handle the body type.
  */
 export type Type = 'JSON' | 'TEXT' | 'OCTET_STREAM'
 
 /**
- * Process body.
+ * Handle body.
  *
  * @param type Type
- * @return Promise<ProcessResponseResult>
+ * @return Promise<HandleResponseResult>
  */
-export interface ProcessBody {
-  (type?: Type): Promise<ProcessResponseResult>
+export interface HandleBody {
+  (type?: Type): Promise<HandleResponseResult>
 }
 
 /**
- * Processing body method.
+ * Handle the body methods.
  */
-export interface ProcessingBodyMethod {
-  readonly json: ParseJson
+export interface HandleBodyMethod {
+  /**
+   * Parse the JSON.
+   */
+  readonly json: ParseJSON
+
+  /**
+   * Parse the text.
+   */
   readonly text: ParseText
+
+  /**
+   * Parse the octet stream.
+   */
   readonly octetStream: ParseOctetStream
 }
 
 /**
- * Initialization processing body.
+ * Initialization handle body.
  *
- * @param options InitProcessBodyOptions
- * @param response Response
- * @return ProcessBody
+ * @param options   InitHandleBodyOptions
+ * @param response  Response
+ * @return HandleBody
  */
-export interface InitProcessBody {
-  (options: InitProcessBodyOptions, response: Response): ProcessBody
+export interface InitHandleBody {
+  (options: InitHandleBodyOptions, response: Response): HandleBody
 }

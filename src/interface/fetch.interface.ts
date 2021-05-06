@@ -1,15 +1,15 @@
-import { ProcessResponseResult } from './response.interface'
+import { HandleResponseResult } from './response.interface'
 
 /**
- * Initialize the fetch options.
+ * Fetch options.
  *
  * @extends RequestInit
  */
 export interface FetchOptions extends RequestInit {
   /**
-   * The request timeout period, in milliseconds.
+   * Request timeout, unit milliseconds.
    *
-   * Default: 3000ms
+   * Default 3000ms
    */
   timeout?: number
 }
@@ -17,10 +17,10 @@ export interface FetchOptions extends RequestInit {
 /**
  * Fetch API.
  *
- * @param url       Request URL address.
+ * @param url       Request the URL address.
  * @param options   FetchOptions
  * @return Promise<HandleResponseResult>
  */
 export interface Fetch {
-  (url: string, options?: FetchOptions): Promise<ProcessResponseResult>
+  (url: string, options?: FetchOptions): Promise<HandleResponseResult>
 }

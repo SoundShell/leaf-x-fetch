@@ -2,14 +2,14 @@ import * as assert from 'assert'
 import { checkStatus } from '../src/status'
 
 describe('test/status.test.ts', () => {
-  it('should be the result of checking the normal response status', async () => {
+  it('should be the result of checking the normal state', async () => {
     const response = { ok: true } as Response
     const result = checkStatus(response)
 
     assert(result.ok)
   })
 
-  it('should be the result of checking the abnormal response status', async () => {
+  it('should be the result of checking the abnormal state', async () => {
     try {
       const response = {
         ok: false,

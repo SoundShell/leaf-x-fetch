@@ -1,14 +1,14 @@
 import { ContentType as ContentTypeEnum } from './enum/contentType.enum'
 import {
-  InitProcessBody,
-  InitProcessResponse,
-  ParseJson,
+  HandleBodyMethod,
+  InitHandleBody,
+  InitHandleResponse,
+  ParseJSON,
   ParseOctetStream,
-  ParseText,
-  ProcessingBodyMethod
+  ParseText
 } from './interface/response.interface'
 
-const parseJson: ParseJson = async (response) => response.json()
+const parseJSON: ParseJSON = async (response) => response.json()
 const parseText: ParseText = async (response) => response.text()
 const parseOctetStream: ParseOctetStream = async (response) =>
   response.text().then((body) => {
@@ -23,21 +23,21 @@ const parseOctetStream: ParseOctetStream = async (response) =>
     return data
   })
 
-const initProcessBody: InitProcessBody = (options, response) => async (
+const initHandleBody: InitHandleBody = (options, response) => async (
   type = 'TEXT'
 ) => {
-  const processingBodyMethod: ProcessingBodyMethod = Object.freeze({
-    json: parseJson,
+  const handleBodyMethod: HandleBodyMethod = Object.freeze({
+    json: parseJSON,
     text: parseText,
     octetStream: parseOctetStream
   })
 
-  return processingBodyMethod[ContentTypeEnum[type]](response).then((data) =>
+  return handleBodyMethod[ContentTypeEnum[type]](response).then((data) =>
     Object.assign({}, options, { data })
   )
 }
 
-export const initProcessResponse: InitProcessResponse = (options) => async (
+export const initHandleResponse: InitHandleResponse = (options) => async (
   response
 ) => {
   const { status, statusText, url } = response
@@ -56,19 +56,15 @@ export const initProcessResponse: InitProcessResponse = (options) => async (
   }
 
   const contentType = headers['content-type'] as string
-  const processBody = initProcessBody(responseOptions, response)
+  const handleBody = initHandleBody(responseOptions, response)
 
   if (contentType?.startsWith('application/json')) {
-    return processBody('JSON')
+    return handleBody('JSON')
+  } else if (contentType?.startsWith('application/octet-stream')) {
+    return handleBody('OCTET_STREAM')
+  } else if (contentType?.startsWith('text/plain')) {
+    return handleBody('TEXT')
+  } else {
+    return handleBody()
   }
-
-  if (contentType?.startsWith('application/octet-stream')) {
-    return processBody('OCTET_STREAM')
-  }
-
-  if (contentType?.startsWith('text/plain')) {
-    return processBody('TEXT')
-  }
-
-  return processBody()
 }

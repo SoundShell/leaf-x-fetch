@@ -1,7 +1,7 @@
 import AbortController from 'abort-controller'
 import * as isomorphicFetch from 'isomorphic-fetch'
 import { Fetch } from './interface/fetch.interface'
-import { initProcessResponse } from './response'
+import { initHandleResponse } from './response'
 import { checkStatus } from './status'
 
 export const fetch: Fetch = async (url, options) => {
@@ -14,7 +14,7 @@ export const fetch: Fetch = async (url, options) => {
   } = options ?? {}
 
   const requestOptions = { method, headers, ...args }
-  const processResponse = initProcessResponse({ timeout, ...requestOptions })
+  const handleResponse = initHandleResponse({ timeout, ...requestOptions })
   const abortController = new AbortController()
   const signal = abortController.signal
 
@@ -23,10 +23,10 @@ export const fetch: Fetch = async (url, options) => {
   try {
     return await isomorphicFetch(url, { signal, ...requestOptions })
       .then(checkStatus)
-      .then(processResponse)
+      .then(handleResponse)
   } catch (error) {
     if (error.response) {
-      throw await processResponse(error.response)
+      throw await handleResponse(error.response)
     }
 
     throw error

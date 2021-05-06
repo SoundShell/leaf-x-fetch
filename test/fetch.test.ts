@@ -2,19 +2,19 @@ import * as assert from 'assert'
 import { fetch } from '../src/fetch'
 
 describe('test/fetch.test.ts', () => {
-  it('should be the result of the default options', async () => {
+  it('should be the result of the default request options', async () => {
     const result = await fetch('https://www.bing.com')
 
     assert(typeof result.data === 'string')
   })
 
-  it('should be the result of the input parameter request', async () => {
+  it('should be the result of the custom options', async () => {
     const result = await fetch('https://www.bing.com', { timeout: 3000 })
 
     assert(typeof result.data === 'string')
   })
 
-  it('should be the result of the request response exception', async () => {
+  it('should be the result of requesting an abnormal response', async () => {
     const result = await fetch('https://www.bing.com/404', {
       timeout: 3000
     }).catch((err) => err)
