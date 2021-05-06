@@ -21,7 +21,7 @@ export interface ParseText {
 }
 
 /**
- * Parsing octet stream.
+ * Parse octet stream.
  *
  * @param response Response
  * @return Promise<Record<string, unknown> | string>
@@ -129,7 +129,7 @@ export interface HandleBodyMethod {
   readonly text: ParseText
 
   /**
-   * Parsing octet stream.
+   * Parse octet stream.
    */
   readonly octetStream: ParseOctetStream
 }
