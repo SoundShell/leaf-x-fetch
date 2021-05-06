@@ -24,7 +24,7 @@ describe('test/response.test.ts', () => {
     assert(result.data === 'ok')
   })
 
-  it('should be the result of responding to octet street and converts to JSON', async () => {
+  it('should be the result of responding to octet street and converting it to JSON', async () => {
     const response = new Response(Buffer.from(JSON.stringify({})), {
       headers: { 'content-type': 'application/octet-stream; charset=utf-8' }
     })
@@ -35,7 +35,7 @@ describe('test/response.test.ts', () => {
     assert(typeof result.data === 'object')
   })
 
-  it('should be the result of responding to octet street and converts to text', async () => {
+  it('should be the result of responding to octet street and converting it to text', async () => {
     const response = new Response(Buffer.from(''), {
       headers: { 'content-type': 'application/octet-stream; charset=utf-8' }
     })
@@ -57,7 +57,7 @@ describe('test/response.test.ts', () => {
     assert(result.data === 'ok')
   })
 
-  it('should be the result of the content type response', async () => {
+  it('should be the result of a response to a content-free type', async () => {
     const response = new Response('ok')
 
     response.headers.delete('content-type')

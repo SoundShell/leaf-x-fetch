@@ -35,7 +35,7 @@ export interface ParseOctetStream {
  */
 export interface ResponseOptions {
   /**
-   * Respond headers.
+   * Response headers.
    */
   headers: Record<string, unknown>
 
@@ -105,7 +105,7 @@ export interface InitHandleBodyOptions extends ResponseOptions {
 export type Type = 'JSON' | 'TEXT' | 'OCTET_STREAM'
 
 /**
- * Handle body.
+ * Handle the body.
  *
  * @param type Type
  * @return Promise<HandleResponseResult>
@@ -135,7 +135,7 @@ export interface HandleBodyMethod {
 }
 
 /**
- * Initialization handle body.
+ * Initialization handle the body.
  *
  * @param options   InitHandleBodyOptions
  * @param response  Response

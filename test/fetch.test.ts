@@ -14,7 +14,7 @@ describe('test/fetch.test.ts', () => {
     assert(typeof result.data === 'string')
   })
 
-  it('should be the result of requesting an abnormal response', async () => {
+  it('should be the result of an exception response to a request', async () => {
     const result = await fetch('https://www.bing.com/404', {
       timeout: 3000
     }).catch((err) => err)
