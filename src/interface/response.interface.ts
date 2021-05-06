@@ -78,7 +78,7 @@ export interface InitHandleResponse {
 }
 
 /**
- * handle the request response.
+ * Handle the request response.
  *
  * @param response Response
  * @return Promise<HandleResponseResult>
