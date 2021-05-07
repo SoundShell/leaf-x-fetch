@@ -56,7 +56,7 @@ export interface ResponseOptions {
 }
 
 /**
- * Handle the request response results.
+ * Handle the request response result.
  *
  * @extends ResponseOptions
  */

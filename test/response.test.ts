@@ -46,7 +46,7 @@ describe('test/response.test.ts', () => {
     assert(typeof result.data === 'string')
   })
 
-  it('should be the result of other data responses', async () => {
+  it('should be the result of other data response', async () => {
     const response = new Response('ok', {
       headers: { 'content-type': 'text/html; charset=utf-8' }
     })
@@ -57,7 +57,7 @@ describe('test/response.test.ts', () => {
     assert(result.data === 'ok')
   })
 
-  it('should be the result of a content-free type response', async () => {
+  it('should be the result of content-free type response', async () => {
     const response = new Response('ok')
 
     response.headers.delete('content-type')

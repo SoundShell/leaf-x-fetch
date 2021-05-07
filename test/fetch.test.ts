@@ -8,13 +8,13 @@ describe('test/fetch.test.ts', () => {
     assert(typeof result.data === 'string')
   })
 
-  it('should be the result of a custom options', async () => {
+  it('should be the result of custom options', async () => {
     const result = await fetch('https://www.bing.com', { timeout: 3000 })
 
     assert(typeof result.data === 'string')
   })
 
-  it('should be the result of an exception response to a request', async () => {
+  it('should be the result of an exception response to request', async () => {
     const result = await fetch('https://www.bing.com/404', {
       timeout: 3000
     }).catch((err) => err)
@@ -22,7 +22,7 @@ describe('test/fetch.test.ts', () => {
     assert(result.status === 404)
   })
 
-  it('should be the result of a request timeout', async () => {
+  it('should be the result of request timeout', async () => {
     const result = await fetch('https://www.bing.com', {
       timeout: 1
     }).catch((err) => err)
