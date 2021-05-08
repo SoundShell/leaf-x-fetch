@@ -5,5 +5,5 @@
  * @return Response
  */
 export interface CheckStatus {
-  (response: Response): Response
+  (response: Response): Response;
 }

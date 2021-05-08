@@ -1,4 +1,4 @@
-import { FetchOptions } from './fetch.interface'
+import {FetchOptions} from './fetch.interface';
 
 /**
  * Parse JSON.
@@ -7,7 +7,7 @@ import { FetchOptions } from './fetch.interface'
  * @return Promise<Record<string, unknown>>
  */
 export interface ParseJSON {
-  (response: Response): Promise<Record<string, unknown>>
+  (response: Response): Promise<Record<string, unknown>>;
 }
 
 /**
@@ -17,7 +17,7 @@ export interface ParseJSON {
  * @return Promise<string>
  */
 export interface ParseText {
-  (response: Response): Promise<string>
+  (response: Response): Promise<string>;
 }
 
 /**
@@ -27,7 +27,7 @@ export interface ParseText {
  * @return Promise<Record<string, unknown> | string>
  */
 export interface ParseOctetStream {
-  (response: Response): Promise<Record<string, unknown> | string>
+  (response: Response): Promise<Record<string, unknown> | string>;
 }
 
 /**
@@ -37,22 +37,22 @@ export interface ResponseOptions {
   /**
    * Response headers.
    */
-  headers: Record<string, unknown>
+  headers: Record<string, unknown>;
 
   /**
    * Response status code.
    */
-  status: number
+  status: number;
 
   /**
    * Response status text.
    */
-  statusText: string
+  statusText: string;
 
   /**
    * Request URL address.
    */
-  url: string
+  url: string;
 }
 
 /**
@@ -64,7 +64,7 @@ export interface HandleResponseResult extends ResponseOptions {
   /**
    * Response data.
    */
-  data: unknown
+  data: unknown;
 }
 
 /**
@@ -74,7 +74,7 @@ export interface HandleResponseResult extends ResponseOptions {
  * @return HandleResponse
  */
 export interface InitHandleResponse {
-  (options?: FetchOptions): HandleResponse
+  (options?: FetchOptions): HandleResponse;
 }
 
 /**
@@ -84,7 +84,7 @@ export interface InitHandleResponse {
  * @return Promise<HandleResponseResult>
  */
 export interface HandleResponse {
-  (response: Response): Promise<HandleResponseResult>
+  (response: Response): Promise<HandleResponseResult>;
 }
 
 /**
@@ -96,13 +96,13 @@ export interface InitHandleBodyOptions extends ResponseOptions {
   /**
    * Fetch options.
    */
-  options: FetchOptions
+  options: FetchOptions;
 }
 
 /**
  * Handle the request response body type.
  */
-export type Type = 'JSON' | 'TEXT' | 'OCTET_STREAM'
+export type Type = 'JSON' | 'TEXT' | 'OCTET_STREAM';
 
 /**
  * Handle the request response body.
@@ -111,7 +111,7 @@ export type Type = 'JSON' | 'TEXT' | 'OCTET_STREAM'
  * @return Promise<HandleResponseResult>
  */
 export interface HandleBody {
-  (type?: Type): Promise<HandleResponseResult>
+  (type?: Type): Promise<HandleResponseResult>;
 }
 
 /**
@@ -121,17 +121,17 @@ export interface HandleBodyMethod {
   /**
    * Parse JSON.
    */
-  readonly json: ParseJSON
+  readonly json: ParseJSON;
 
   /**
    * Parse text.
    */
-  readonly text: ParseText
+  readonly text: ParseText;
 
   /**
    * Parse octet stream.
    */
-  readonly octetStream: ParseOctetStream
+  readonly octetStream: ParseOctetStream;
 }
 
 /**
@@ -142,5 +142,5 @@ export interface HandleBodyMethod {
  * @return HandleBody
  */
 export interface InitHandleBody {
-  (options: InitHandleBodyOptions, response: Response): HandleBody
+  (options: InitHandleBodyOptions, response: Response): HandleBody;
 }

@@ -4,5 +4,5 @@
 export enum ContentType {
   JSON = 'json',
   TEXT = 'text',
-  OCTET_STREAM = 'octetStream'
+  OCTET_STREAM = 'octetStream',
 }

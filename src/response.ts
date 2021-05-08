@@ -1,27 +1,27 @@
-import { ContentType as ContentTypeEnum } from './enum/contentType.enum'
+import {ContentType as ContentTypeEnum} from './enum/content_type.enum';
 import {
   HandleBodyMethod,
   InitHandleBody,
   InitHandleResponse,
   ParseJSON,
   ParseOctetStream,
-  ParseText
-} from './interface/response.interface'
+  ParseText,
+} from './interface/response.interface';
 
-const parseJSON: ParseJSON = async (response) => response.json()
-const parseText: ParseText = async (response) => response.text()
-const parseOctetStream: ParseOctetStream = async (response) =>
-  response.text().then((body) => {
-    let data!: Record<string, unknown> | string
+const parseJSON: ParseJSON = async response => response.json();
+const parseText: ParseText = async response => response.text();
+const parseOctetStream: ParseOctetStream = async response =>
+  response.text().then(body => {
+    let data!: Record<string, unknown> | string;
 
     try {
-      data = JSON.parse(body)
+      data = JSON.parse(body);
     } catch (error) {
-      data = body
+      data = body;
     }
 
-    return data
-  })
+    return data;
+  });
 
 const initHandleBody: InitHandleBody = (options, response) => async (
   type = 'TEXT'
@@ -29,22 +29,20 @@ const initHandleBody: InitHandleBody = (options, response) => async (
   const handleBodyMethod: HandleBodyMethod = Object.freeze({
     json: parseJSON,
     text: parseText,
-    octetStream: parseOctetStream
-  })
+    octetStream: parseOctetStream,
+  });
 
-  return handleBodyMethod[ContentTypeEnum[type]](response).then((data) =>
-    Object.assign({}, options, { data })
-  )
-}
+  return handleBodyMethod[ContentTypeEnum[type]](response).then(data =>
+    Object.assign({}, options, {data})
+  );
+};
 
-export const initHandleResponse: InitHandleResponse = (options) => async (
-  response
-) => {
-  const { status, statusText, url } = response
-  const headers = {} as Record<string, unknown>
+export const initHandleResponse: InitHandleResponse = options => async response => {
+  const {status, statusText, url} = response;
+  const headers = {} as Record<string, unknown>;
 
   for (const key of response.headers.keys()) {
-    Object.assign(headers, { [key]: response.headers.get(key) })
+    Object.assign(headers, {[key]: response.headers.get(key)});
   }
 
   const responseOptions = {
@@ -52,19 +50,19 @@ export const initHandleResponse: InitHandleResponse = (options) => async (
     statusText,
     headers,
     url,
-    options: options ?? {}
-  }
+    options: options ?? {},
+  };
 
-  const contentType = headers['content-type'] as string
-  const handleBody = initHandleBody(responseOptions, response)
+  const contentType = headers['content-type'] as string;
+  const handleBody = initHandleBody(responseOptions, response);
 
   if (contentType?.startsWith('application/json')) {
-    return handleBody('JSON')
+    return handleBody('JSON');
   } else if (contentType?.startsWith('application/octet-stream')) {
-    return handleBody('OCTET_STREAM')
+    return handleBody('OCTET_STREAM');
   } else if (contentType?.startsWith('text/plain')) {
-    return handleBody('TEXT')
+    return handleBody('TEXT');
   } else {
-    return handleBody()
+    return handleBody();
   }
-}
+};

@@ -1,11 +1,11 @@
-import { CheckStatus } from './interface/status.interface'
+import {CheckStatus} from './interface/status.interface';
 
-export const checkStatus: CheckStatus = (response) => {
+export const checkStatus: CheckStatus = response => {
   if (response.ok) {
-    return response
+    return response;
   } else {
-    const error = new Error(response.statusText)
+    const error = new Error(response.statusText);
 
-    throw Object.assign(error, { response })
+    throw Object.assign(error, {response});
   }
-}
+};

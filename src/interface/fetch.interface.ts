@@ -1,4 +1,4 @@
-import { HandleResponseResult } from './response.interface'
+import {HandleResponseResult} from './response.interface';
 
 /**
  * Fetch options.
@@ -11,7 +11,7 @@ export interface FetchOptions extends RequestInit {
    *
    * Default 3000ms
    */
-  timeout?: number
+  timeout?: number;
 }
 
 /**
@@ -22,5 +22,5 @@ export interface FetchOptions extends RequestInit {
  * @return Promise<HandleResponseResult>
  */
 export interface Fetch {
-  (url: string, options?: FetchOptions): Promise<HandleResponseResult>
+  (url: string, options?: FetchOptions): Promise<HandleResponseResult>;
 }
