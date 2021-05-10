@@ -17,7 +17,10 @@ describe('test/fetch.test.ts', () => {
   it('should be the result of an exception response to request', async () => {
     const result = await fetch('https://www.bing.com/404', {
       timeout: 3000,
-    }).catch(err => err);
+    }).catch(err => {
+      console.info(err);
+      return err;
+    });
 
     assert(result.status === 404);
   });

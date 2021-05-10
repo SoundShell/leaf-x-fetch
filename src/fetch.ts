@@ -2,7 +2,6 @@ import AbortController from 'abort-controller';
 import * as isomorphicFetch from 'isomorphic-fetch';
 import {Fetch} from './interface/fetch.interface';
 import {initHandleResponse} from './response';
-import {checkStatus} from './status';
 import {handleUrl} from './url';
 
 export const fetch: Fetch = (url, options) => {
@@ -25,14 +24,7 @@ export const fetch: Fetch = (url, options) => {
 
   setTimeout(() => abortController.abort(), timeout);
 
-  return isomorphicFetch(requestUrl, {signal, ...requestOptions})
-    .then(checkStatus)
-    .then(handleResponse)
-    .catch(error => {
-      if (error.response) {
-        throw handleResponse(error.response);
-      }
-
-      throw error;
-    });
+  return isomorphicFetch(requestUrl, {signal, ...requestOptions}).then(
+    handleResponse
+  );
 };

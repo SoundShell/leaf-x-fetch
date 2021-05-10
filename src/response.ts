@@ -32,11 +32,11 @@ const initHandleBody: InitHandleBody = (options, response) => async (
     octetStream: parseOctetStream,
   });
 
-  const data = await handleBodyMethod[ContentTypeEnum[type]](response);
-  return {
-    ...options,
-    data,
-  };
+  return handleBodyMethod[ContentTypeEnum[type]](response).then(data => {
+    const result = {...options, data};
+
+    return response.ok ? result : Promise.reject(result);
+  });
 };
 
 export const initHandleResponse: InitHandleResponse = options => response => {
@@ -62,6 +62,8 @@ export const initHandleResponse: InitHandleResponse = options => response => {
     return handleBody('JSON');
   } else if (contentType?.startsWith('application/octet-stream')) {
     return handleBody('OCTET_STREAM');
+  } else if (contentType?.startsWith('text/html')) {
+    return handleBody('TEXT');
   } else if (contentType?.startsWith('text/plain')) {
     return handleBody('TEXT');
   } else {
