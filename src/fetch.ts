@@ -5,7 +5,7 @@ import {initHandleResponse} from './response';
 import {checkStatus} from './status';
 import {handleUrl} from './url';
 
-export const fetch: Fetch = async (url, options) => {
+export const fetch: Fetch = (url, options) => {
   const {
     params = {},
     method = 'GET',

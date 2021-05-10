@@ -8,9 +8,9 @@ import {
   ParseText,
 } from './interface/response.interface';
 
-const parseJSON: ParseJSON = async response => response.json();
-const parseText: ParseText = async response => response.text();
-const parseOctetStream: ParseOctetStream = async response =>
+const parseJSON: ParseJSON = response => response.json();
+const parseText: ParseText = response => response.text();
+const parseOctetStream: ParseOctetStream = response =>
   response.text().then(body => {
     let data!: Record<string, unknown> | string;
 
@@ -32,13 +32,14 @@ const initHandleBody: InitHandleBody = (options, response) => async (
     octetStream: parseOctetStream,
   });
 
-  return handleBodyMethod[ContentTypeEnum[type]](response).then(data => ({
+  const data = await handleBodyMethod[ContentTypeEnum[type]](response);
+  return {
     ...options,
     data,
-  }));
+  };
 };
 
-export const initHandleResponse: InitHandleResponse = options => async response => {
+export const initHandleResponse: InitHandleResponse = options => response => {
   const {status, statusText, url} = response;
   const headers = {} as Record<string, unknown>;
 
