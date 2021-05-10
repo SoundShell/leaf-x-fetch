@@ -32,9 +32,10 @@ const initHandleBody: InitHandleBody = (options, response) => async (
     octetStream: parseOctetStream,
   });
 
-  return handleBodyMethod[ContentTypeEnum[type]](response).then(data =>
-    Object.assign({}, options, {data})
-  );
+  return handleBodyMethod[ContentTypeEnum[type]](response).then(data => ({
+    data,
+    ...options,
+  }));
 };
 
 export const initHandleResponse: InitHandleResponse = options => async response => {

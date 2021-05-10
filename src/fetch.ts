@@ -5,11 +5,13 @@ import {initHandleResponse} from './response';
 import {checkStatus} from './status';
 
 export const fetch: Fetch = async (url, options) => {
-  const contentType = 'application/json; charset=utf-8';
   const {
     method = 'GET',
     timeout = 3000,
-    headers = {'content-type': contentType, accept: contentType},
+    headers = {
+      'content-type': 'application/json; charset=utf-8',
+      accept: '*/*',
+    },
     ...args
   } = options ?? {};
 
