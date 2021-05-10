@@ -33,8 +33,8 @@ const initHandleBody: InitHandleBody = (options, response) => async (
   });
 
   return handleBodyMethod[ContentTypeEnum[type]](response).then(data => ({
-    data,
     ...options,
+    data,
   }));
 };
 
