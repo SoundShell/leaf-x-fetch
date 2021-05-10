@@ -12,6 +12,11 @@ export interface FetchOptions extends RequestInit {
    * Default 3000ms
    */
   timeout?: number;
+
+  /**
+   * Query parameters.
+   */
+  params?: Record<string, unknown>;
 }
 
 /**

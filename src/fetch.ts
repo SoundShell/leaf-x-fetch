@@ -3,9 +3,11 @@ import * as isomorphicFetch from 'isomorphic-fetch';
 import {Fetch} from './interface/fetch.interface';
 import {initHandleResponse} from './response';
 import {checkStatus} from './status';
+import {handleUrl} from './url';
 
 export const fetch: Fetch = async (url, options) => {
   const {
+    params = {},
     method = 'GET',
     timeout = 3000,
     headers = {
@@ -19,10 +21,11 @@ export const fetch: Fetch = async (url, options) => {
   const handleResponse = initHandleResponse({timeout, ...requestOptions});
   const abortController = new AbortController();
   const signal = abortController.signal;
+  const requestUrl = handleUrl({url, params});
 
   setTimeout(() => abortController.abort(), timeout);
 
-  return isomorphicFetch(url, {signal, ...requestOptions})
+  return isomorphicFetch(requestUrl, {signal, ...requestOptions})
     .then(checkStatus)
     .then(handleResponse)
     .catch(error => {
