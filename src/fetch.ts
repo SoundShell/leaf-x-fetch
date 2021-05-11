@@ -9,14 +9,22 @@ export const fetch: Fetch = (url, options) => {
     method = 'GET',
     params = {},
     timeout = 3000,
-    headers = {
-      'content-type': 'application/json; charset=utf-8',
-      accept: '*/*',
-    },
+    headers,
     ...args
   } = options ?? {};
 
-  const requestInit = {method, headers, ...args};
+  const {
+    'content-type': contentType = 'application/json; charset=utf-8',
+    accept = '*/*',
+    ...headersArgs
+  } = (headers ?? {}) as Record<string, string>;
+
+  const requestInit = {
+    method,
+    headers: {'content-type': contentType, accept, ...headersArgs},
+    ...args,
+  };
+
   const handleResponse = initHandleResponse({timeout, ...requestInit});
   const abortController = new AbortController();
   const signal = abortController.signal;
