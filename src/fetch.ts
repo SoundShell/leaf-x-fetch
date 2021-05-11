@@ -6,8 +6,8 @@ import {handleUrl} from './url';
 
 export const fetch: Fetch = (url, options) => {
   const {
-    params = {},
     method = 'GET',
+    params = {},
     timeout = 3000,
     headers = {
       'content-type': 'application/json; charset=utf-8',
@@ -16,15 +16,15 @@ export const fetch: Fetch = (url, options) => {
     ...args
   } = options ?? {};
 
-  const requestOptions = {method, headers, ...args};
-  const handleResponse = initHandleResponse({timeout, ...requestOptions});
+  const requestInit = {method, headers, ...args};
+  const handleResponse = initHandleResponse({timeout, ...requestInit});
   const abortController = new AbortController();
   const signal = abortController.signal;
   const requestUrl = handleUrl({url, params});
 
   setTimeout(() => abortController.abort(), timeout);
 
-  return isomorphicFetch(requestUrl, {signal, ...requestOptions}).then(
+  return isomorphicFetch(requestUrl, {signal, ...requestInit}).then(
     handleResponse
   );
 };

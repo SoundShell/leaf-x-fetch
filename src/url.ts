@@ -10,11 +10,9 @@ export const handleUrl: HandleUrl = ({url, params}) => {
   }
 
   const queryParams = {...searchParams, ...params} as Record<string, unknown>;
-  const parametersString = Object.keys(queryParams)
+  const paramsString = Object.keys(queryParams)
     .map(key => `${key}=${queryParams[key]}`)
     .join('&');
 
-  return encodeURI(
-    parametersString ? `${requestUrl}?${parametersString}` : requestUrl
-  );
+  return encodeURI(paramsString ? `${requestUrl}?${paramsString}` : requestUrl);
 };

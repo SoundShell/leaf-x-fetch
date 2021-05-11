@@ -3,12 +3,12 @@ import {
   HandleBodyMethod,
   InitHandleBody,
   InitHandleResponse,
-  ParseJSON,
+  ParseJson,
   ParseOctetStream,
   ParseText,
 } from './interface/response.interface';
 
-const parseJSON: ParseJSON = response => response.json();
+const parseJson: ParseJson = response => response.json();
 const parseText: ParseText = response => response.text();
 const parseOctetStream: ParseOctetStream = response =>
   response.text().then(body => {
@@ -23,21 +23,20 @@ const parseOctetStream: ParseOctetStream = response =>
     return data;
   });
 
-const initHandleBody: InitHandleBody = (options, response) => async (
-  type = 'TEXT'
-) => {
-  const handleBodyMethod: HandleBodyMethod = Object.freeze({
-    json: parseJSON,
-    text: parseText,
-    octetStream: parseOctetStream,
-  });
+const initHandleBody: InitHandleBody =
+  (options, response) =>
+  async (type = 'TEXT') => {
+    const handleBodyMethod: HandleBodyMethod = Object.freeze({
+      json: parseJson,
+      text: parseText,
+      octetStream: parseOctetStream,
+    });
 
-  return handleBodyMethod[ContentTypeEnum[type]](response).then(data => {
+    const data = await handleBodyMethod[ContentTypeEnum[type]](response);
     const result = {...options, data};
 
     return response.ok ? result : Promise.reject(result);
-  });
-};
+  };
 
 export const initHandleResponse: InitHandleResponse = options => response => {
   const {status, statusText, url} = response;
@@ -47,16 +46,17 @@ export const initHandleResponse: InitHandleResponse = options => response => {
     Object.assign(headers, {[key]: response.headers.get(key)});
   }
 
-  const responseOptions = {
-    status,
-    statusText,
-    headers,
-    url,
-    options: options ?? {},
-  };
-
   const contentType = headers['content-type'] as string;
-  const handleBody = initHandleBody(responseOptions, response);
+  const handleBody = initHandleBody(
+    {
+      status,
+      statusText,
+      headers,
+      url,
+      options: options ?? {},
+    },
+    response
+  );
 
   if (contentType?.startsWith('application/json')) {
     return handleBody('JSON');

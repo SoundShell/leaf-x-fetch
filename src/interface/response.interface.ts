@@ -6,7 +6,7 @@ import {FetchOptions} from './fetch.interface';
  * @param response Response
  * @return Promise<Record<string, unknown>>
  */
-export interface ParseJSON {
+export interface ParseJson {
   (response: Response): Promise<Record<string, unknown>>;
 }
 
@@ -100,28 +100,13 @@ export interface InitHandleBodyOptions extends ResponseOptions {
 }
 
 /**
- * Handle the request response body type.
- */
-export type Type = 'JSON' | 'TEXT' | 'OCTET_STREAM';
-
-/**
- * Handle the request response body.
- *
- * @param type Type
- * @return Promise<HandleResponseResult>
- */
-export interface HandleBody {
-  (type?: Type): Promise<HandleResponseResult>;
-}
-
-/**
  * Handle the request response body method.
  */
 export interface HandleBodyMethod {
   /**
    * Parse JSON.
    */
-  readonly json: ParseJSON;
+  readonly json: ParseJson;
 
   /**
    * Parse text.
@@ -143,4 +128,19 @@ export interface HandleBodyMethod {
  */
 export interface InitHandleBody {
   (options: InitHandleBodyOptions, response: Response): HandleBody;
+}
+
+/**
+ * Handle the request response body type.
+ */
+export type Type = 'JSON' | 'TEXT' | 'OCTET_STREAM';
+
+/**
+ * Handle the request response body.
+ *
+ * @param type Type
+ * @return Promise<HandleResponseResult>
+ */
+export interface HandleBody {
+  (type?: Type): Promise<HandleResponseResult>;
 }
