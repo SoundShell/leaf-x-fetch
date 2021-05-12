@@ -3,19 +3,19 @@ import {handleUrl} from '../src/url';
 
 describe('test/fetch.test.ts', () => {
   it('should be the result of handle URLs without parameters', async () => {
-    const result = handleUrl({url: 'https://www.bing.com', params: {}});
+    const result = handleUrl({url: 'https://leaf-x.app', params: {}});
 
-    assert(result === 'https://www.bing.com/');
+    assert(result === 'https://leaf-x.app/');
   });
 
   it('should be the result of handle URLs with parameters', async () => {
     const result = handleUrl({
-      url: 'https://www.bing.com?test=test',
+      url: 'https://leaf-x.app?test=test',
       params: {
         name: 'bing',
       },
     });
 
-    assert(result === 'https://www.bing.com/?test=test&name=bing');
+    assert(result === 'https://leaf-x.app/?test=test&name=bing');
   });
 });
