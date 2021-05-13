@@ -17,6 +17,11 @@ export interface FetchOptions extends RequestInit {
    * Query parameters.
    */
   params?: Record<string, unknown>;
+
+  /**
+   * Request body data.
+   */
+  data?: RequestInit['body'] | Record<string, unknown>;
 }
 
 /**

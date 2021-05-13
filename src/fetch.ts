@@ -1,15 +1,23 @@
 import AbortController from 'abort-controller';
-import * as isomorphicFetch from 'isomorphic-fetch';
 import {Fetch} from './interface/fetch.interface';
 import {initHandleResponse} from './response';
 import {handleUrl} from './url';
 
-export const fetch: Fetch = (url, options) => {
+const isomorphicFetch =
+  typeof document !== 'undefined' || typeof process !== 'undefined';
+
+if (isomorphicFetch) {
+  require('isomorphic-fetch');
+}
+
+export const leafXFetch: Fetch = (url, options) => {
   const {
     method = 'GET',
     params = {},
     timeout = 3000,
     headers,
+    data,
+    body,
     ...args
   } = options ?? {};
 
@@ -19,9 +27,16 @@ export const fetch: Fetch = (url, options) => {
     ...headersArgs
   } = (headers ?? {}) as Record<string, string>;
 
+  const requestBody = data
+    ? typeof data === 'object' && data !== null
+      ? JSON.stringify(data)
+      : data
+    : body;
+
   const requestInit = {
     method,
     headers: {'content-type': contentType, accept, ...headersArgs},
+    body: requestBody,
     ...args,
   };
 
@@ -32,7 +47,5 @@ export const fetch: Fetch = (url, options) => {
 
   setTimeout(() => abortController.abort(), timeout);
 
-  return isomorphicFetch(requestUrl, {signal, ...requestInit}).then(
-    handleResponse
-  );
+  return fetch(requestUrl, {signal, ...requestInit}).then(handleResponse);
 };
