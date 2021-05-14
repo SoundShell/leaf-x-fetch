@@ -34,9 +34,11 @@ describe('test/fetch.test.ts', () => {
   });
 
   it('should be the result of request timeout', async () => {
-    await leafXFetch('https://leaf-x.app', {
+    await leafXFetch('https://www.leaf-x.app', {
       timeout: 1,
-    }).catch(error => error.message === 'The user aborted a request.');
+    }).catch(error =>
+      assert(error.data.message === 'The user aborted a request.')
+    );
   });
 
   it('should be the result of posting JSON data', async () => {

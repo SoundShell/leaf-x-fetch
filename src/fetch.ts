@@ -6,9 +6,9 @@ import {handleUrl} from './url';
 const reactNative =
   typeof navigator !== 'undefined' && navigator.product === 'ReactNative';
 
-reactNative
-  ? require('react-native-url-polyfill/auto')
-  : require('isomorphic-fetch');
+if (!reactNative) {
+  require('isomorphic-fetch');
+}
 
 export const leafXFetch: Fetch = (url, options) => {
   const {
@@ -47,5 +47,13 @@ export const leafXFetch: Fetch = (url, options) => {
 
   setTimeout(() => abortController.abort(), timeout);
 
-  return fetch(requestUrl, {signal, ...requestInit}).then(handleResponse);
+  return fetch(requestUrl, {signal, ...requestInit})
+    .then(handleResponse)
+    .catch(error => {
+      if (error.data && error.options) {
+        throw error;
+      }
+
+      throw {data: {message: error.message}, options: requestInit};
+    });
 };
