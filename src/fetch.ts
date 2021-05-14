@@ -3,10 +3,10 @@ import {Fetch} from './interface/fetch.interface';
 import {initHandleResponse} from './response';
 import {handleUrl} from './url';
 
-const isomorphicFetch =
-  typeof document !== 'undefined' || typeof process !== 'undefined';
+const reactNative =
+  typeof navigator !== 'undefined' && navigator.product === 'ReactNative';
 
-if (isomorphicFetch) {
+if (!reactNative) {
   require('isomorphic-fetch');
 }
 
