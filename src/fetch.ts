@@ -6,9 +6,9 @@ import {handleUrl} from './url';
 const reactNative =
   typeof navigator !== 'undefined' && navigator.product === 'ReactNative';
 
-if (!reactNative) {
-  require('isomorphic-fetch');
-}
+reactNative
+  ? require('react-native-url-polyfill/auto')
+  : require('isomorphic-fetch');
 
 export const leafXFetch: Fetch = (url, options) => {
   const {
