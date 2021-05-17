@@ -11,7 +11,7 @@ Provide some utility wrappers for fetch.
 ```typescript
 import {fetch} from '@leaf-x/fetch';
 
-await fetch('https://leaf-x.app').then(result => {
+await fetch('https://www.leaf-x.app').then(result => {
   console.info(result);
 });
 ```

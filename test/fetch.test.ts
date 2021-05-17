@@ -41,7 +41,7 @@ describe('test/fetch.test.ts', () => {
     );
   });
 
-  it('should be the result of posting JSON data', async () => {
+  it('should be the result of post JSON data', async () => {
     await leafXFetch('https://leaf-x.app/json/succeed', {
       method: 'POST',
       data: {leaf: 'OK'},
