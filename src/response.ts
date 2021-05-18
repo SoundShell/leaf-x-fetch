@@ -1,4 +1,4 @@
-import {ContentType as ContentTypeEnum} from './enum/content_type.enum';
+import {ContentType} from './enum/content_type.enum';
 import {
   HandleResponseBodyMethod,
   InitHandleResponse,
@@ -30,7 +30,7 @@ const initHandleResponseBody: InitHandleResponseBody =
       octetStream: parseOctetStream,
     });
 
-    const data = await handleBodyMethod[ContentTypeEnum[type]](response);
+    const data = await handleBodyMethod[ContentType[type]](response);
     const result = {...options, data};
 
     return response.ok ? result : Promise.reject(result);
