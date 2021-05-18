@@ -99,17 +99,17 @@ export interface HandleResponseBodyMethod {
   /**
    * Parse JSON.
    */
-  json: ParseJson;
+  readonly json: ParseJson;
 
   /**
    * Parse text.
    */
-  text: ParseText;
+  readonly text: ParseText;
 
   /**
    * Parse octet stream.
    */
-  octetStream: ParseOctetStream;
+  readonly octetStream: ParseOctetStream;
 }
 
 /**
