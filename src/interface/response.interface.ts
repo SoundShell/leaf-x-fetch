@@ -1,10 +1,36 @@
+import {ContentTypeString} from '../enum/content_type.enum';
 import {FetchOptions} from './fetch.interface';
+
+/**
+ * Request response options.
+ */
+export interface ResponseOptions {
+  /**
+   * Response headers.
+   */
+  headers: Record<string, string>;
+
+  /**
+   * Response status code.
+   */
+  status: number;
+
+  /**
+   * Response status text.
+   */
+  statusText: string;
+
+  /**
+   * Response URL.
+   */
+  url: string;
+}
 
 /**
  * Parse JSON.
  *
  * @param response Response
- * @return Promise<Record<string, unknown>>
+ * @return Promise<Record<string, unknown>>;
  */
 export interface ParseJson {
   (response: Response): Promise<Record<string, unknown>>;
@@ -31,28 +57,59 @@ export interface ParseOctetStream {
 }
 
 /**
- * Request response options.
+ * Initialize the handle response body options.
+ *
+ * @extends ResponseOptions
  */
-export interface ResponseOptions {
+export interface InitHandleResponseBodyOptions extends ResponseOptions {
   /**
-   * Response headers.
+   * Fetch options.
    */
-  headers: Record<string, unknown>;
+  options: FetchOptions;
+}
+
+/**
+ * Initialize the handle response body.
+ *
+ * @param response Response
+ * @param options InitHandleResponseBodyOptions
+ * @return HandleResponseBody
+ */
+export interface InitHandleResponseBody {
+  (
+    response: Response,
+    options: InitHandleResponseBodyOptions
+  ): HandleResponseBody;
+}
+
+/**
+ * Handle the response body.
+ *
+ * @param type ContentTypeString
+ * @return HandleResponseResult
+ */
+export interface HandleResponseBody {
+  (type: ContentTypeString): Promise<HandleResponseResult>;
+}
+
+/**
+ * Handle response body methods.
+ */
+export interface HandleResponseBodyMethod {
+  /**
+   * Parse JSON.
+   */
+  json: ParseJson;
 
   /**
-   * Response status code.
+   * Parse text.
    */
-  status: number;
+  text: ParseText;
 
   /**
-   * Response status text.
+   * Parse octet stream.
    */
-  statusText: string;
-
-  /**
-   * Request URL address.
-   */
-  url: string;
+  octetStream: ParseOctetStream;
 }
 
 /**
@@ -68,7 +125,7 @@ export interface HandleResponseResult extends ResponseOptions {
 }
 
 /**
- * Initialize the handle request response.
+ * Initialize the handle response.
  *
  * @param options FetchOptions
  * @return HandleResponse
@@ -78,69 +135,11 @@ export interface InitHandleResponse {
 }
 
 /**
- * Handle the request response.
+ * Handle response.
  *
  * @param response Response
  * @return Promise<HandleResponseResult>
  */
 export interface HandleResponse {
   (response: Response): Promise<HandleResponseResult>;
-}
-
-/**
- * Initialize the handle request response body options.
- *
- * @extends ResponseOptions
- */
-export interface InitHandleBodyOptions extends ResponseOptions {
-  /**
-   * Fetch options.
-   */
-  options: FetchOptions;
-}
-
-/**
- * Handle the request response body method.
- */
-export interface HandleBodyMethod {
-  /**
-   * Parse JSON.
-   */
-  readonly json: ParseJson;
-
-  /**
-   * Parse text.
-   */
-  readonly text: ParseText;
-
-  /**
-   * Parse octet stream.
-   */
-  readonly octetStream: ParseOctetStream;
-}
-
-/**
- * Initialize the handle request response body.
- *
- * @param options   InitHandleBodyOptions
- * @param response  Response
- * @return HandleBody
- */
-export interface InitHandleBody {
-  (options: InitHandleBodyOptions, response: Response): HandleBody;
-}
-
-/**
- * Handle the request response body type.
- */
-export type Type = 'JSON' | 'TEXT' | 'OCTET_STREAM';
-
-/**
- * Handle the request response body.
- *
- * @param type Type
- * @return Promise<HandleResponseResult>
- */
-export interface HandleBody {
-  (type?: Type): Promise<HandleResponseResult>;
 }

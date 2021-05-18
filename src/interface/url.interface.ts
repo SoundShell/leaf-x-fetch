@@ -1,24 +1,24 @@
 /**
- * Handle URL options.
+ * Handle request URL options.
  */
-export interface HandleUrlOptions {
+export interface HandleRequestUrlOptions {
   /**
-   * Request URL address.
+   * Request URL.
    */
   url: string;
 
   /**
-   * Query parameters.
+   * Request query parameters.
    */
   params: Record<string, unknown>;
 }
 
 /**
- * Handle URL.
+ * Handle request URL.
  *
- * @param options HandleUrlOptions
+ * @param options HandleRequestUrlOptions
  * @return string
  */
-export interface HandleUrl {
-  (options: HandleUrlOptions): string;
+export interface HandleRequestUrl {
+  (options: HandleRequestUrlOptions): string;
 }

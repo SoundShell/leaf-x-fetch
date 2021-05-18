@@ -2,7 +2,7 @@ import * as assert from 'assert';
 import {initHandleResponse} from '../src/response';
 
 describe('test/response.test.ts', () => {
-  it('should be the result of the response JSON', async () => {
+  it('should be handle JSON', async () => {
     const response = new Response(JSON.stringify({}), {
       headers: {'content-type': 'application/json; charset=utf-8'},
     });
@@ -12,7 +12,7 @@ describe('test/response.test.ts', () => {
     );
   });
 
-  it('should be the result of the response text', async () => {
+  it('should be handle text', async () => {
     const response = new Response('ok', {
       headers: {'content-type': 'text/plain; charset=utf-8'},
     });
@@ -22,7 +22,7 @@ describe('test/response.test.ts', () => {
     );
   });
 
-  it('should respond to the result of the octet stream and convert it to JSON', async () => {
+  it('should handle octal streams and convert to JSON', async () => {
     const response = new Response(Buffer.from(JSON.stringify({})), {
       headers: {'content-type': 'application/octet-stream; charset=utf-8'},
     });
@@ -32,7 +32,7 @@ describe('test/response.test.ts', () => {
     );
   });
 
-  it('should respond to the result of the octet stream and convert it to text', async () => {
+  it('should handle octal streams and convert them to text', async () => {
     const response = new Response(Buffer.from(''), {
       headers: {'content-type': 'application/octet-stream; charset=utf-8'},
     });
@@ -42,7 +42,7 @@ describe('test/response.test.ts', () => {
     );
   });
 
-  it('should be the result of other data response', async () => {
+  it('should be handle other responses', async () => {
     const response = new Response('ok', {
       headers: {'content-type': 'text/html; charset=utf-8'},
     });
@@ -52,7 +52,7 @@ describe('test/response.test.ts', () => {
     );
   });
 
-  it('should be the result of content-free type response', async () => {
+  it('should be handle no content type response', async () => {
     const response = new Response('ok');
 
     response.headers.delete('content-type');

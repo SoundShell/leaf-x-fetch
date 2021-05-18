@@ -1,12 +1,14 @@
-import AbortController from 'abort-controller';
+import {AbortController} from 'abort-controller';
+import {handleRequestBody} from './body';
+import {handleRequestHeaders} from './headers';
 import {Fetch} from './interface/fetch.interface';
 import {initHandleResponse} from './response';
-import {handleUrl} from './url';
+import {handleRequestUrl} from './url';
 
-const reactNative =
+const REACT_NATIVE =
   typeof navigator !== 'undefined' && navigator.product === 'ReactNative';
 
-if (!reactNative) {
+if (!REACT_NATIVE) {
   require('isomorphic-fetch');
 }
 
@@ -15,27 +17,17 @@ export const leafXFetch: Fetch = (url, options) => {
     method = 'GET',
     params = {},
     timeout = 3000,
-    headers,
+    headers = {},
     data,
     body,
     ...args
   } = options ?? {};
 
-  const {
-    'content-type': contentType = 'application/json; charset=utf-8',
-    accept = '*/*',
-    ...headersArgs
-  } = (headers ?? {}) as Record<string, string>;
-
-  const requestBody = data
-    ? typeof data === 'object' && data !== null
-      ? JSON.stringify(data)
-      : data
-    : body;
-
+  const requestHeaders = handleRequestHeaders(headers);
+  const requestBody = handleRequestBody(data, body);
   const requestInit = {
     method,
-    headers: {'content-type': contentType, accept, ...headersArgs},
+    headers: requestHeaders,
     body: requestBody,
     ...args,
   };
@@ -43,7 +35,7 @@ export const leafXFetch: Fetch = (url, options) => {
   const handleResponse = initHandleResponse({timeout, ...requestInit});
   const abortController = new AbortController();
   const signal = abortController.signal;
-  const requestUrl = handleUrl({url, params});
+  const requestUrl = handleRequestUrl({url, params});
 
   setTimeout(() => abortController.abort(), timeout);
 

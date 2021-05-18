@@ -1,8 +1,8 @@
 import {ContentType as ContentTypeEnum} from './enum/content_type.enum';
 import {
-  HandleBodyMethod,
-  InitHandleBody,
+  HandleResponseBodyMethod,
   InitHandleResponse,
+  InitHandleResponseBody,
   ParseJson,
   ParseOctetStream,
   ParseText,
@@ -19,14 +19,12 @@ const parseOctetStream: ParseOctetStream = response =>
     } catch (error) {
       data = body;
     }
-
     return data;
   });
 
-const initHandleBody: InitHandleBody =
-  (options, response) =>
-  async (type = 'TEXT') => {
-    const handleBodyMethod: HandleBodyMethod = Object.freeze({
+const initHandleResponseBody: InitHandleResponseBody =
+  (response, options) => async type => {
+    const handleBodyMethod: HandleResponseBodyMethod = Object.freeze({
       json: parseJson,
       text: parseText,
       octetStream: parseOctetStream,
@@ -40,33 +38,30 @@ const initHandleBody: InitHandleBody =
 
 export const initHandleResponse: InitHandleResponse = options => response => {
   const {status, statusText, url} = response;
-  const headers = {} as Record<string, unknown>;
+  const headers = {} as Record<string, string>;
 
   for (const key of response.headers.keys()) {
     Object.assign(headers, {[key]: response.headers.get(key)});
   }
 
   const contentType = headers['content-type'] as string;
-  const handleBody = initHandleBody(
-    {
-      status,
-      statusText,
-      headers,
-      url,
-      options: options ?? {},
-    },
-    response
-  );
+  const handleResponseBody = initHandleResponseBody(response, {
+    status,
+    statusText,
+    headers,
+    url,
+    options: options ?? {},
+  });
 
   if (contentType?.startsWith('application/json')) {
-    return handleBody('JSON');
+    return handleResponseBody('JSON');
   } else if (contentType?.startsWith('application/octet-stream')) {
-    return handleBody('OCTET_STREAM');
+    return handleResponseBody('OCTET_STREAM');
   } else if (contentType?.startsWith('text/html')) {
-    return handleBody('TEXT');
+    return handleResponseBody('TEXT');
   } else if (contentType?.startsWith('text/plain')) {
-    return handleBody('TEXT');
+    return handleResponseBody('TEXT');
   } else {
-    return handleBody();
+    return handleResponseBody('TEXT');
   }
 };

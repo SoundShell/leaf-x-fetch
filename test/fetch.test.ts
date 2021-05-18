@@ -14,26 +14,26 @@ describe('test/fetch.test.ts', () => {
     nock('https://leaf-x.app').post('/text/succeed').reply(200, good);
   });
 
-  it('should be the result of the default request options', async () => {
+  it('should be the default request', async () => {
     await leafXFetch('https://leaf-x.app/default/succeed').then(result =>
       assert(result.data === good)
     );
   });
 
-  it('should be the result of custom options', async () => {
+  it('should be the correct response to the request', async () => {
     await leafXFetch('https://leaf-x.app/custom/succeed', {
       timeout: 3000,
       headers: {token: 'QXV0aG9yaXphdGlvbg=='},
     }).then(result => assert(result.data === good));
   });
 
-  it('should be the result of an exception response to request', async () => {
+  it('should be an exception response', async () => {
     await leafXFetch('https://leaf-x.app/fail', {
       timeout: 3000,
     }).catch(error => assert(error.status === 404));
   });
 
-  it('should be the result of request timeout', async () => {
+  it('should be a request timeout', async () => {
     await leafXFetch('https://www.leaf-x.app', {
       timeout: 1,
     }).catch(error =>
@@ -41,14 +41,14 @@ describe('test/fetch.test.ts', () => {
     );
   });
 
-  it('should be the result of post JSON data', async () => {
+  it('should be the JSON of the response', async () => {
     await leafXFetch('https://leaf-x.app/json/succeed', {
       method: 'POST',
       data: {leaf: 'OK'},
     }).then(result => assert(result.data === good));
   });
 
-  it('should be the result of post text data', async () => {
+  it('should be the text of the response', async () => {
     await leafXFetch('https://leaf-x.app/text/succeed', {
       method: 'POST',
       data: 'ok',
