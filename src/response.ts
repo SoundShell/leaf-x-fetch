@@ -44,7 +44,7 @@ export const initHandleResponse: InitHandleResponse = options => response => {
     Object.assign(headers, {[key]: response.headers.get(key)});
   }
 
-  const contentType = headers['content-type'] as string;
+  const contentType = headers['content-type'];
   const handleResponseBody = initHandleResponseBody(response, {
     status,
     statusText,

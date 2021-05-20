@@ -46,6 +46,9 @@ export const leafXFetch: Fetch = (url, options) => {
         throw error;
       }
 
-      throw {data: {message: error.message}, options: requestInit};
+      throw Object.assign(new Error('Invalid request.'), {
+        data: {message: error.message},
+        options: requestInit,
+      });
     });
 };
