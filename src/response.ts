@@ -36,32 +36,34 @@ const initHandleResponseBody: InitHandleResponseBody =
     return response.ok ? result : Promise.reject(result);
   };
 
-export const initHandleResponse: InitHandleResponse = options => response => {
-  const {status, statusText, url} = response;
-  const headers = {} as Record<string, string>;
+export const initHandleResponse: InitHandleResponse =
+  (options = {}) =>
+  response => {
+    const {status, statusText, url} = response;
+    const headers = {} as Record<string, string>;
 
-  for (const key of response.headers.keys()) {
-    Object.assign(headers, {[key]: response.headers.get(key)});
-  }
+    for (const key of response.headers.keys()) {
+      Object.assign(headers, {[key]: response.headers.get(key)});
+    }
 
-  const contentType = headers['content-type'];
-  const handleResponseBody = initHandleResponseBody(response, {
-    status,
-    statusText,
-    headers,
-    url,
-    options: options ?? {},
-  });
+    const contentType = headers['content-type'];
+    const handleResponseBody = initHandleResponseBody(response, {
+      status,
+      statusText,
+      headers,
+      url,
+      options,
+    });
 
-  if (contentType?.startsWith('application/json')) {
-    return handleResponseBody('JSON');
-  } else if (contentType?.startsWith('application/octet-stream')) {
-    return handleResponseBody('OCTET_STREAM');
-  } else if (contentType?.startsWith('text/html')) {
-    return handleResponseBody('TEXT');
-  } else if (contentType?.startsWith('text/plain')) {
-    return handleResponseBody('TEXT');
-  } else {
-    return handleResponseBody('TEXT');
-  }
-};
+    if (contentType?.startsWith('application/json')) {
+      return handleResponseBody('JSON');
+    } else if (contentType?.startsWith('application/octet-stream')) {
+      return handleResponseBody('OCTET_STREAM');
+    } else if (contentType?.startsWith('text/html')) {
+      return handleResponseBody('TEXT');
+    } else if (contentType?.startsWith('text/plain')) {
+      return handleResponseBody('TEXT');
+    } else {
+      return handleResponseBody('TEXT');
+    }
+  };

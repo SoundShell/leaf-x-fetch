@@ -12,7 +12,7 @@ if (!REACT_NATIVE) {
   require('isomorphic-fetch');
 }
 
-export const leafXFetch: Fetch = (url, options) => {
+export const leafXFetch: Fetch = (url, options = {}) => {
   const {
     method = 'GET',
     params = {},
@@ -21,7 +21,7 @@ export const leafXFetch: Fetch = (url, options) => {
     data,
     body,
     ...args
-  } = options ?? {};
+  } = options;
 
   const requestHeaders = handleRequestHeaders(headers);
   const requestBody = handleRequestBody(data, body);
