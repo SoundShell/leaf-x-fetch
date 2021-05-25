@@ -1,20 +1,23 @@
 /**
- * Handle request URL options.
+ * Options for handle request URLs.
  */
 export interface HandleRequestUrlOptions {
   /**
-   * Request URL.
+   * URL of the request.
    */
   url: string;
 
   /**
-   * Request query parameters.
+   * Set the request query parameters, these parameters will be automatically
+   * merged with the request URL query characters. If the query parameters and
+   * the query string have the same parameters, the query parameters will
+   * override the query string.
    */
   params: Record<string, unknown>;
 }
 
 /**
- * Handle request URL.
+ * Handle the request URL.
  *
  * @param options HandleRequestUrlOptions
  * @return string

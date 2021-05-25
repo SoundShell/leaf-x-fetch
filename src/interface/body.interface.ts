@@ -1,7 +1,7 @@
 import {FetchOptions} from './fetch.interface';
 
 /**
- * Handle request body.
+ * Handle request body data.
  *
  * @param data FetchOptions['data']
  * @param body FetchOptions['body']

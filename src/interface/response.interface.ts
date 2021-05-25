@@ -2,32 +2,32 @@ import {ContentTypeString} from '../enum/content_type.enum';
 import {FetchOptions} from './fetch.interface';
 
 /**
- * Request response options.
+ * Options for the request response body.
  */
 export interface ResponseOptions {
   /**
-   * Response headers.
+   * Request response headers.
    */
   headers: Record<string, string>;
 
   /**
-   * Response status code.
+   * Request response status code.
    */
   status: number;
 
   /**
-   * Response status text.
+   * Request response status text description.
    */
   statusText: string;
 
   /**
-   * Response URL.
+   * URL of the originating request.
    */
   url: string;
 }
 
 /**
- * Parse JSON.
+ * Parse the response to a request for an application/json response body.
  *
  * @param response Response
  * @return Promise<Record<string, unknown>>;
@@ -37,7 +37,7 @@ export interface ParseJson {
 }
 
 /**
- * Parse text.
+ * Parsing the response to a request with a text/plain response body.
  *
  * @param response Response
  * @return Promise<string>
@@ -47,7 +47,8 @@ export interface ParseText {
 }
 
 /**
- * Parse octet stream.
+ * Parse the response to a request for an application/octet-stream response
+ * body.
  *
  * @param response Response
  * @return Promise<Record<string, unknown> | string>
@@ -57,19 +58,19 @@ export interface ParseOctetStream {
 }
 
 /**
- * Initialize the handle response body options.
+ * Initialize the options for handle the request response body.
  *
  * @extends ResponseOptions
  */
 export interface InitHandleResponseBodyOptions extends ResponseOptions {
   /**
-   * Fetch options.
+   * Options for the Fetch API.
    */
   options: FetchOptions;
 }
 
 /**
- * Initialize the handle response body.
+ * Initialize the function that handle the request response body.
  *
  * @param response Response
  * @param options InitHandleResponseBodyOptions
@@ -83,7 +84,7 @@ export interface InitHandleResponseBody {
 }
 
 /**
- * Handle the response body.
+ * Handle the request response body.
  *
  * @param type ContentTypeString
  * @return HandleResponseResult
@@ -97,35 +98,36 @@ export interface HandleResponseBody {
  */
 export interface HandleResponseBodyMethod {
   /**
-   * Parse JSON.
+   * Parse the response to a request for an application/json response body.
    */
   readonly json: ParseJson;
 
   /**
-   * Parse text.
+   * Parse the response to a request for an text/plain response body.
    */
   readonly text: ParseText;
 
   /**
-   * Parse octet stream.
+   * Parse the response to a request for an application/octet-stream response
+   * body.
    */
   readonly octetStream: ParseOctetStream;
 }
 
 /**
- * Handle the request response result.
+ * The result of handle the request response.
  *
  * @extends ResponseOptions
  */
 export interface HandleResponseResult extends ResponseOptions {
   /**
-   * Response data.
+   * Data of the request response.
    */
   data: unknown;
 }
 
 /**
- * Initialize the handle response.
+ * Initialize the functions that handle the request response.
  *
  * @param options FetchOptions
  * @return HandleResponse
@@ -135,7 +137,7 @@ export interface InitHandleResponse {
 }
 
 /**
- * Handle response.
+ * Handle request responses.
  *
  * @param response Response
  * @return Promise<HandleResponseResult>

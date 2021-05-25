@@ -1,5 +1,5 @@
 /**
- * Content type of the request response.
+ * Enumerates the request response content data type.
  */
 export enum ContentType {
   JSON = 'json',
@@ -8,6 +8,6 @@ export enum ContentType {
 }
 
 /**
- * Content type string of the request response .
+ * Request response content data type string.
  */
 export type ContentTypeString = 'JSON' | 'TEXT' | 'OCTET_STREAM';
