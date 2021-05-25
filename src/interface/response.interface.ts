@@ -94,7 +94,7 @@ export interface HandleResponseBody {
 }
 
 /**
- * Handle response body methods.
+ * Handle response body method.
  */
 export interface HandleResponseBodyMethod {
   /**
@@ -137,7 +137,7 @@ export interface InitHandleResponse {
 }
 
 /**
- * Handle request responses.
+ * Handle request response.
  *
  * @param response Response
  * @return Promise<HandleResponseResult>

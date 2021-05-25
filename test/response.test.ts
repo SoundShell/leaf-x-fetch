@@ -42,7 +42,7 @@ describe('test/response.test.ts', () => {
     );
   });
 
-  it('should be handle other responses', async () => {
+  it('should be handle other response', async () => {
     const response = new Response('ok', {
       headers: {'content-type': 'text/html; charset=utf-8'},
     });
