@@ -2,21 +2,21 @@ import * as assert from 'assert';
 import * as nock from 'nock';
 import {leafXFetch} from '../src/fetch';
 
-const good = 'hello world';
-const bad = 'good bye cruel world';
+const GOOD = 'hello world';
+const BAD = 'good bye cruel world';
 
 describe('test/fetch.test.ts', () => {
   before(async () => {
-    nock('https://leaf-x.app').get('/default/succeed').reply(200, good);
-    nock('https://leaf-x.app').get('/custom/succeed').reply(200, good);
-    nock('https://leaf-x.app').get('/fail').reply(404, bad);
-    nock('https://leaf-x.app').post('/json/succeed').reply(200, good);
-    nock('https://leaf-x.app').post('/text/succeed').reply(200, good);
+    nock('https://leaf-x.app').get('/default/succeed').reply(200, GOOD);
+    nock('https://leaf-x.app').get('/custom/succeed').reply(200, GOOD);
+    nock('https://leaf-x.app').get('/fail').reply(404, BAD);
+    nock('https://leaf-x.app').post('/json/succeed').reply(200, GOOD);
+    nock('https://leaf-x.app').post('/text/succeed').reply(200, GOOD);
   });
 
   it('should be the default request', async () => {
     await leafXFetch('https://leaf-x.app/default/succeed').then(result =>
-      assert(result.data === good)
+      assert(result.data === GOOD)
     );
   });
 
@@ -24,7 +24,7 @@ describe('test/fetch.test.ts', () => {
     await leafXFetch('https://leaf-x.app/custom/succeed', {
       timeout: 3000,
       headers: {token: 'QXV0aG9yaXphdGlvbg=='},
-    }).then(result => assert(result.data === good));
+    }).then(result => assert(result.data === GOOD));
   });
 
   it('should be an exception response', async () => {
@@ -45,13 +45,13 @@ describe('test/fetch.test.ts', () => {
     await leafXFetch('https://leaf-x.app/json/succeed', {
       method: 'POST',
       data: {leaf: 'OK'},
-    }).then(result => assert(result.data === good));
+    }).then(result => assert(result.data === GOOD));
   });
 
   it('should be the text of the response', async () => {
     await leafXFetch('https://leaf-x.app/text/succeed', {
       method: 'POST',
       data: 'ok',
-    }).then(result => assert(result.data === good));
+    }).then(result => assert(result.data === GOOD));
   });
 });
