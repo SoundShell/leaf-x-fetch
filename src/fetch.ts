@@ -42,7 +42,9 @@ export const leafXFetch: Fetch = (url, options = {}) => {
   return fetch(requestUrl, {signal, ...requestInit})
     .then(handleResponse)
     .catch(error => {
-      if (error.data && error.options) {
+      const isResponseError = error.status && error.statusText && error.headers;
+
+      if (isResponseError) {
         throw error;
       }
 
