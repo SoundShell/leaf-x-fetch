@@ -1,15 +1,44 @@
 import {AbortController} from 'abort-controller';
+import 'isomorphic-fetch';
 import {handleRequestBody} from './body';
+import {initHandleRequestError} from './error';
 import {handleRequestHeaders} from './headers';
-import {Fetch} from './interface/fetch.interface';
-import {initHandleResponse} from './response';
+import {HandleResponseResult, initHandleResponse} from './response';
 import {handleRequestUrl} from './url';
 
-const REACT_NATIVE =
-  typeof navigator !== 'undefined' && navigator.product === 'ReactNative';
+/**
+ * Options for the Fetch.
+ */
+export interface FetchOptions extends RequestInit {
+  /**
+   * Request timeout time, default is 3000ms.
+   */
+  timeout?: number;
 
-if (!REACT_NATIVE) {
-  require('isomorphic-fetch');
+  /**
+   * Request query parameters.
+   *
+   * These query parameters will be merged with the request URL only string,
+   * if the query parameters and the query string have the same parameters,
+   * the query parameters will override the query string parameters.
+   */
+  params?: Record<string, unknown>;
+
+  /**
+   * A request body object or null.
+   */
+  data?: RequestInit['body'] | Record<string, unknown>;
+}
+
+/**
+ * Fetch.
+ *
+ * @param url URL of the request.
+ * @param options FetchOptions
+ * @return Promise<HandleResponseResult | never>
+ */
+export interface Fetch {
+  (url: string, options?: FetchOptions): Promise<HandleResponseResult | never>;
 }
 
 export const leafXFetch: Fetch = (url, options = {}) => {
@@ -25,6 +54,7 @@ export const leafXFetch: Fetch = (url, options = {}) => {
 
   const requestHeaders = handleRequestHeaders(headers);
   const requestBody = handleRequestBody(data, body);
+  const requestUrl = handleRequestUrl({url, params});
   const requestInit = {
     method,
     headers: requestHeaders,
@@ -32,25 +62,16 @@ export const leafXFetch: Fetch = (url, options = {}) => {
     ...args,
   };
 
-  const handleResponse = initHandleResponse({timeout, ...requestInit});
+  const fetchOptions = {timeout, ...requestInit};
+  const handleResponse = initHandleResponse(fetchOptions);
+  const handleError = initHandleRequestError(fetchOptions);
+
   const abortController = new AbortController();
   const signal = abortController.signal;
-  const requestUrl = handleRequestUrl({url, params});
 
   setTimeout(() => abortController.abort(), timeout);
 
   return fetch(requestUrl, {signal, ...requestInit})
     .then(handleResponse)
-    .catch(error => {
-      const isResponseError = error.status && error.statusText && error.headers;
-
-      if (isResponseError) {
-        throw error;
-      }
-
-      throw Object.assign(new Error('Invalid request.'), {
-        data: {message: error.message},
-        options: requestInit,
-      });
-    });
+    .catch(handleError);
 };
