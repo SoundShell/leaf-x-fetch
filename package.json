@@ -1,6 +1,6 @@
 {
   "name": "@leaf-x/fetch",
-  "version": "2.0.0",
+  "version": "2.1.4",
   "main": "./dist/src/index.js",
   "author": "sound shell <sound_shell@outlook.com>",
   "description": "Provide some utility wrappers for fetch.",

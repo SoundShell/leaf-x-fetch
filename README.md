@@ -9,9 +9,9 @@ Provide some utility wrappers for fetch.
 ## Use
 
 ```typescript
-import {leafXFetch} from '@leaf-x/fetch';
+import fetch from '@leaf-x/fetch';
 
-await leafXFetch('https://www.leaf-x.app').then(result => {
+await fetch('https://www.leaf-x.app').then(result => {
   console.info(result);
 });
 ```
