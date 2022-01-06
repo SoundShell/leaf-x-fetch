@@ -35,9 +35,11 @@ export const handleRequestUrl: HandleRequestUrl = ({url, params}) => {
   }
 
   const queryParams = {...query, ...params} as Record<string, unknown>;
-  const paramsString = Object.keys(queryParams)
-    .map(key => `${key}=${queryParams[key]}`)
-    .join('&');
+  const paramsString = encodeURI(
+    Object.keys(queryParams)
+      .map(key => `${key}=${queryParams[key]}`)
+      .join('&')
+  );
 
-  return encodeURI(paramsString ? `${requestUrl}?${paramsString}` : requestUrl);
+  return paramsString ? `${requestUrl}?${paramsString}` : requestUrl;
 };
