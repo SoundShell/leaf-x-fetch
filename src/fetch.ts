@@ -3,29 +3,30 @@ import 'isomorphic-fetch';
 import {handleRequestBody} from './body';
 import {initHandleRequestError} from './error';
 import {handleRequestHeaders} from './headers';
-import {HandleResponseResult, initHandleResponse} from './response';
+import {initHandleResponse} from './response';
 import {handleRequestUrl} from './url';
 
 /**
- * Options for the Fetch.
+ * Fetch options.
  */
 export interface FetchOptions extends RequestInit {
   /**
-   * Request timeout time, default is 3000ms.
+   * Request timeout, default 3000 milliseconds.
    */
   timeout?: number;
 
   /**
    * Request query parameters.
    *
-   * These query parameters will be merged with the request URL only string,
-   * if the query parameters and the query string have the same parameters,
-   * the query parameters will override the query string parameters.
+   * The query parameter will be merged with the URL string parameter
+   * automatically, if the URL parameter and the query parameter have the same
+   * parameter, the query parameter will overwrite the same URL string
+   * parameter.
    */
   params?: Record<string, unknown>;
 
   /**
-   * A request body object or null.
+   * Request data.
    */
   data?: RequestInit['body'] | Record<string, unknown>;
 }
@@ -33,15 +34,10 @@ export interface FetchOptions extends RequestInit {
 /**
  * Fetch.
  *
- * @param url URL of the request.
- * @param options FetchOptions
- * @return Promise<HandleResponseResult | never>
+ * @param url —  URL of the request.
+ * @param options — FetchOptions
  */
-export interface Fetch {
-  (url: string, options?: FetchOptions): Promise<HandleResponseResult | never>;
-}
-
-export const leafXFetch: Fetch = (url, options = {}) => {
+export const leafXFetch = (url: string, options: FetchOptions = {}) => {
   const {
     method = 'GET',
     params = {},

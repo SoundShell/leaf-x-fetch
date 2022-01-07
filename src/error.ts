@@ -1,39 +1,31 @@
 import {FetchOptions} from './fetch';
 
 /**
- * Initialize the error handling request.
+ * Initialize the request error function.
  *
- * @param options FetchOptions
- * @return (error: Record<string, unknown>) => never
+ * @param options — FetchOptions
  */
-export interface InitHandleRequestError {
-  (options: FetchOptions): (error: Record<string, unknown>) => never;
-}
+export const initHandleRequestError =
+  (options: FetchOptions) => (error: unknown) =>
+    handleRequestError(error, options);
 
 /**
  * Handle request errors.
  *
- * @param error  Request error.
- * @param options  FetchOptions
- * @return never
+ * @param error — unknown
+ * @param options — FetchOptions
  */
-export interface HandleRequestError {
-  (error: Record<string, unknown>, options: FetchOptions): never;
-}
-
-export const initHandleRequestError: InitHandleRequestError =
-  options => error =>
-    handleRequestError(error, options);
-
-export const handleRequestError: HandleRequestError = (error, options) => {
-  const isResponseError = error.status && error.statusText && error.headers;
+export const handleRequestError = (error: unknown, options: FetchOptions) => {
+  const relError = error as Record<string, unknown>;
+  const isResponseError =
+    relError.status && relError.statusText && relError.headers;
 
   if (isResponseError) {
     throw error;
   }
 
   throw Object.assign(new Error('Invalid request.'), {
-    data: {message: error.message},
+    data: {message: relError.message},
     options,
   });
 };

@@ -1,7 +1,7 @@
 import {FetchOptions} from './fetch';
 
 /**
- * Enumerates the request response content data type.
+ * Enumeration of request content type words.
  */
 export enum ContentType {
   JSON = 'json',
@@ -10,158 +10,67 @@ export enum ContentType {
 }
 
 /**
- * Request response content data type string.
+ * Request content type string.
  */
 export type ContentTypeString = 'JSON' | 'TEXT' | 'OCTET_STREAM';
 
 /**
- * Options for the request response body.
+ * Request response options.
  */
 export interface ResponseOptions {
   /**
-   * Request response headers.
+   * Request response header information.
    */
   headers: Record<string, string>;
 
   /**
-   * Request response status code.
+   * Request response status.
    */
   status: number;
 
   /**
-   * Request response status text description.
+   * Text description of the request response status.
    */
   statusText: string;
 
   /**
-   * URL of the originating request.
+   * Request URL.
    */
   url: string;
 }
 
 /**
- * Parse the response to a request for an application/json response body.
- *
- * @param response Response
- * @return Promise<Record<string, unknown>>
- */
-export interface ParseJson {
-  (response: Response): Promise<Record<string, unknown>>;
-}
-
-/**
- * Parsing the response to a request with a text/plain response body.
- *
- * @param response Response
- * @return Promise<string>
- */
-export interface ParseText {
-  (response: Response): Promise<string>;
-}
-
-/**
- * Parse the response to a request for an application/octet-stream response
- * body.
- *
- * @param response Response
- * @return Promise<Record<string, unknown> | string>
- */
-export interface ParseOctetStream {
-  (response: Response): Promise<Record<string, unknown> | string>;
-}
-
-/**
- * Initialize the options for handle the request response body.
+ * Initialize the function options for handling the response body.
  *
  * @extends ResponseOptions
  */
 export interface InitHandleResponseBodyOptions extends ResponseOptions {
   /**
-   * Options for the Fetch.
+   * Fetch options.
    */
   options: FetchOptions;
 }
 
 /**
- * Initialize the function that handle the request response body.
+ * Parsing JSON data response.
  *
- * @param response Response
- * @param options InitHandleResponseBodyOptions
- * @return HandleResponseBody
+ * @param response —  Response
  */
-export interface InitHandleResponseBody {
-  (
-    response: Response,
-    options: InitHandleResponseBodyOptions
-  ): HandleResponseBody;
-}
+const parseJson = (response: Response) => response.json();
 
 /**
- * Handle the request response body.
+ * Parsing text data responses.
  *
- * @param type ContentTypeString
- * @return HandleResponseResult
+ * @param response —  Response
  */
-export interface HandleResponseBody {
-  (type: ContentTypeString): Promise<HandleResponseResult>;
-}
+const parseText = (response: Response) => response.text();
 
 /**
- * The result of handle the request response.
+ * Parsing octal stream data response.
  *
- * @extends ResponseOptions
+ * @param response — Response
  */
-export interface HandleResponseResult extends ResponseOptions {
-  /**
-   * Data of the request response.
-   */
-  data: unknown;
-}
-
-/**
- * Handle response body method.
- */
-export interface HandleResponseBodyMethod {
-  /**
-   * Parse the response to a request for an application/json response body.
-   */
-  readonly json: ParseJson;
-
-  /**
-   * Parse the response to a request for an text/plain response body.
-   */
-  readonly text: ParseText;
-
-  /**
-   * Parse the response to a request for an application/octet-stream response
-   * body.
-   */
-  readonly octetStream: ParseOctetStream;
-}
-
-/**
- * Initialize the functions that handle the request response.
- *
- * @param options FetchOptions
- * @return HandleResponse
- */
-export interface InitHandleResponse {
-  (options?: FetchOptions): HandleResponse;
-}
-
-/**
- * Handle request response.
- *
- * @param response Response
- * @return Promise<HandleResponseResult>
- */
-export interface HandleResponse {
-  (response: Response): Promise<HandleResponseResult>;
-}
-
-const parseJson: ParseJson = response => response.json();
-const parseText: ParseText = response => response.text();
-const parseOctetStream: ParseOctetStream = response =>
+const parseOctetStream = (response: Response) =>
   response.text().then(body => {
     let data!: Record<string, unknown> | string;
 
@@ -174,9 +83,16 @@ const parseOctetStream: ParseOctetStream = response =>
     return data;
   });
 
-const initHandleResponseBody: InitHandleResponseBody =
-  (response, options) => async type => {
-    const handleBodyMethod: HandleResponseBodyMethod = Object.freeze({
+/**
+ * Initialize the request response body function.
+ *
+ * @param response — Response
+ * @param options — InitHandleResponseBodyOptions
+ */
+const initHandleResponseBody =
+  (response: Response, options: InitHandleResponseBodyOptions) =>
+  async (type: ContentTypeString) => {
+    const handleBodyMethod = Object.freeze({
       json: parseJson,
       text: parseText,
       octetStream: parseOctetStream,
@@ -188,9 +104,14 @@ const initHandleResponseBody: InitHandleResponseBody =
     return response.ok ? result : Promise.reject(result);
   };
 
-export const initHandleResponse: InitHandleResponse =
-  (options = {}) =>
-  response => {
+/**
+ * Initialize the request response function.
+ *
+ * @param options — FetchOptions
+ */
+export const initHandleResponse =
+  (options: FetchOptions = {}) =>
+  (response: Response) => {
     const {status, statusText, url} = response;
     const headers = {} as Record<string, string>;
 

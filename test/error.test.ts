@@ -2,7 +2,7 @@ import * as assert from 'assert';
 import {initHandleRequestError} from '../src/error';
 
 describe('test/error.test.ts', () => {
-  it('should be a request local error', async () => {
+  it('should be a request code error', async () => {
     try {
       initHandleRequestError({data: 'eC10b2tlbg=='})({
         message: 'Link failed, please check your local network.',
@@ -15,7 +15,7 @@ describe('test/error.test.ts', () => {
     }
   });
 
-  it('should be a request error.', async () => {
+  it('should be a request error', async () => {
     try {
       initHandleRequestError({data: 'eC10b2tlbg=='})({
         status: 400,

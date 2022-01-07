@@ -1,20 +1,15 @@
 import {FetchOptions} from './fetch';
 
 /**
- * Handle request body data.
+ * Handle request body.
  *
- * @param data FetchOptions['data']
- * @param body FetchOptions['body']
- * @return FetchOptions['body']
+ * @param data — FetchOptions['data']
+ * @param body — FetchOptions['body']
  */
-export interface HandleRequestBody {
-  (
-    data: FetchOptions['data'],
-    body: FetchOptions['body']
-  ): FetchOptions['body'];
-}
-
-export const handleRequestBody: HandleRequestBody = (data, body) => {
+export const handleRequestBody = (
+  data: FetchOptions['data'],
+  body: FetchOptions['body']
+) => {
   if (data) {
     return typeof data === 'object' && data !== null
       ? JSON.stringify(data)

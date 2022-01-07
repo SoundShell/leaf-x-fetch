@@ -1,14 +1,9 @@
 /**
- * Handle request headers.
+ * Handle request header information.
  *
- * @param headers HeadersInit
- * @return HeadersInit
+ * @param headers — HeadersInit
  */
-export interface HandleRequestHeaders {
-  (headers: HeadersInit): HeadersInit;
-}
-
-export const handleRequestHeaders: HandleRequestHeaders = headers => ({
+export const handleRequestHeaders = (headers: HeadersInit) => ({
   'content-type': 'application/json; charset=utf-8',
   accept: '*/*',
   ...headers,
