@@ -29,6 +29,11 @@ export interface FetchOptions extends RequestInit {
    * A BodyInit object or null to set request's body.
    */
   data?: RequestInit['body'] | Record<string, unknown>;
+
+  /**
+   * Request headers information.
+   */
+  headers?: Record<string, string>;
 }
 
 /**
