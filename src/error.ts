@@ -21,7 +21,7 @@ export const handleRequestError = (error: unknown, options: FetchOptions) => {
     relError.status && relError.statusText && relError.headers;
 
   if (isResponseError) {
-    throw error;
+    throw relError;
   }
 
   throw Object.assign(new Error('Invalid request.'), {
