@@ -3,17 +3,14 @@ import {handleRequestUrl} from '../src/url';
 
 describe('test/url.test.ts', () => {
   it('Should be handle URLs without parameters', async () => {
-    const result = handleRequestUrl({url: 'https://leaf-x.app', params: {}});
+    const result = handleRequestUrl('https://leaf-x.app', {params: {}});
 
     assert(result === 'https://leaf-x.app/');
   });
 
   it('should be handle URLs with parameters', async () => {
-    const result = handleRequestUrl({
-      url: 'https://leaf-x.app?test=test',
-      params: {
-        name: 'bing',
-      },
+    const result = handleRequestUrl('https://leaf-x.app?test=test', {
+      params: {name: 'bing'},
     });
 
     assert(result === 'https://leaf-x.app/?test=test&name=bing');

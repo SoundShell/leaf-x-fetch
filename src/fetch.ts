@@ -50,7 +50,7 @@ export const leafXFetch = (url: string, options: FetchOptions = {}) => {
 
   const requestHeaders = handleRequestHeaders(headers);
   const requestBody = handleRequestBody(data, body);
-  const requestUrl = handleRequestUrl({url, params});
+  const requestUrl = handleRequestUrl(url, {params});
   const requestInit = {
     method,
     headers: requestHeaders,
