@@ -3,8 +3,8 @@ import {FetchOptions} from './fetch';
 /**
  * Handle request errors.
  *
- * @param error — unknown
- * @param options — FetchOptions
+ * @param error Error.
+ * @param options Fetch options.
  */
 const handleRequestError = (error: unknown, options: FetchOptions) => {
   const relError = error as Record<string, unknown>;
@@ -22,9 +22,9 @@ const handleRequestError = (error: unknown, options: FetchOptions) => {
 };
 
 /**
- * Initialize the request error function.
+ * Initialize the request error handle function.
  *
- * @param options — FetchOptions
+ * @param options Fetch options.
  */
 export const initHandleRequestError =
   (options: FetchOptions) => (error: unknown) =>

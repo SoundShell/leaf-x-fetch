@@ -2,9 +2,11 @@ import * as assert from 'assert';
 import {initHandleRequestError} from '../src/error';
 
 describe('test/error.test.ts', () => {
-  it('should be a request code error', async () => {
+  it('should request a code error', async () => {
     try {
-      initHandleRequestError({data: 'eC10b2tlbg=='})({
+      const handleRequestError = initHandleRequestError({data: 'eC10b2tlbg=='});
+
+      handleRequestError({
         message: 'Link failed, please check your local network.',
       });
     } catch (error) {
@@ -15,9 +17,11 @@ describe('test/error.test.ts', () => {
     }
   });
 
-  it('should be a request error', async () => {
+  it('should be a request response error', async () => {
     try {
-      initHandleRequestError({data: 'eC10b2tlbg=='})({
+      const handleRequestError = initHandleRequestError({data: 'eC10b2tlbg=='});
+
+      handleRequestError({
         status: 400,
         statusText: 'Parameter error',
         headers: {},

@@ -1,7 +1,7 @@
 import {FetchOptions} from './fetch';
 
 /**
- * Options for handling request URL functions.
+ * Handle request URL options.
  */
 export interface HandleRequestUrlOptions {
   /**
@@ -10,7 +10,7 @@ export interface HandleRequestUrlOptions {
   url: string;
 
   /**
-   * Fetch options.
+   * Execute the requested query parameters.
    */
   params: FetchOptions['params'];
 }
@@ -18,7 +18,7 @@ export interface HandleRequestUrlOptions {
 /**
  * Handle the request URL.
  *
- * @param options —  HandleRequestUrlOptions
+ * @param options Handle request URL options.
  */
 export const handleRequestUrl = ({url, params}: HandleRequestUrlOptions) => {
   const {searchParams, origin, pathname} = new URL(url);

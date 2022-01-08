@@ -2,7 +2,7 @@ import * as assert from 'assert';
 import {handleRequestUrl} from '../src/url';
 
 describe('test/url.test.ts', () => {
-  it('should be handle URLs without parameters', async () => {
+  it('Should be handle URLs without parameters', async () => {
     const result = handleRequestUrl({url: 'https://leaf-x.app', params: {}});
 
     assert(result === 'https://leaf-x.app/');

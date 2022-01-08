@@ -1,7 +1,7 @@
 /**
- * Handle request header information.
+ * Handle the request headers information.
  *
- * @param headers — HeadersInit
+ * @param headers Request headers information.
  */
 export const handleRequestHeaders = (headers: HeadersInit) => ({
   'content-type': 'application/json; charset=utf-8',

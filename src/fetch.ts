@@ -11,22 +11,22 @@ import {handleRequestUrl} from './url';
  */
 export interface FetchOptions extends RequestInit {
   /**
-   * Request timeout, default 3000 milliseconds.
+   * The timeout for executing the request, default is 3000 ms.
    */
   timeout?: number;
 
   /**
-   * Request query parameters.
+   * Execute the requested query parameters.
    *
    * The query parameter will be merged with the URL string parameter
-   * automatically, if the URL parameter and the query parameter have the same
-   * parameter, the query parameter will overwrite the same URL string
+   * automatically, if the query parameter and the URL string parameter have
+   * the same key, then the query parameter will overwrite the URL string
    * parameter.
    */
   params?: Record<string, unknown>;
 
   /**
-   * Request data.
+   * A BodyInit object or null to set request's body.
    */
   data?: RequestInit['body'] | Record<string, unknown>;
 }
@@ -34,8 +34,8 @@ export interface FetchOptions extends RequestInit {
 /**
  * Fetch.
  *
- * @param url —  URL of the request.
- * @param options — FetchOptions
+ * @param url Request URL.
+ * @param [options={}] Fetch options.
  */
 export const leafXFetch = (url: string, options: FetchOptions = {}) => {
   const {

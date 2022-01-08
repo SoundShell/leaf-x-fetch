@@ -14,7 +14,7 @@ describe('test/fetch.test.ts', () => {
     nock('https://leaf-x.app').post('/text/succeed').reply(200, GOOD);
   });
 
-  it('should be the default request', async () => {
+  it('should be the default request.', async () => {
     await leafXFetch('https://leaf-x.app/default/succeed').then(result =>
       assert(result.data === GOOD)
     );
@@ -27,7 +27,7 @@ describe('test/fetch.test.ts', () => {
     }).then(result => assert(result.data === GOOD));
   });
 
-  it('should be an exception response', async () => {
+  it('should be an exception response to the request', async () => {
     await leafXFetch('https://leaf-x.app/fail', {
       timeout: 3000,
     }).catch(error => assert(error.status === 404));
@@ -41,14 +41,14 @@ describe('test/fetch.test.ts', () => {
     );
   });
 
-  it('should be the JSON of the response', async () => {
+  it('should be the JSON data of the response', async () => {
     await leafXFetch('https://leaf-x.app/json/succeed', {
       method: 'POST',
       data: {leaf: 'OK'},
     }).then(result => assert(result.data === GOOD));
   });
 
-  it('should be the text of the response', async () => {
+  it('should be the text data of the response', async () => {
     await leafXFetch('https://leaf-x.app/text/succeed', {
       method: 'POST',
       data: 'ok',
