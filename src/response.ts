@@ -84,59 +84,82 @@ const parseOctetStream = (response: Response) =>
   });
 
 /**
- * Initialize the request response body function.
+ * Handle the request response body.
+ *
+ * @param type — ContentTypeString
+ * @param response — Response
+ * @param options — InitHandleResponseBodyOptions
+ */
+const handleResponseBody = async (
+  type: ContentTypeString,
+  response: Response,
+  options: InitHandleResponseBodyOptions
+) => {
+  const handleBodyMethod = Object.freeze({
+    json: parseJson,
+    text: parseText,
+    octetStream: parseOctetStream,
+  });
+
+  const data = await handleBodyMethod[ContentType[type]](response);
+  const result = {...options, data};
+
+  return response.ok ? result : Promise.reject(result);
+};
+
+/**
+ * Initialize the handle request response body function.
  *
  * @param response — Response
  * @param options — InitHandleResponseBodyOptions
  */
 const initHandleResponseBody =
   (response: Response, options: InitHandleResponseBodyOptions) =>
-  async (type: ContentTypeString) => {
-    const handleBodyMethod = Object.freeze({
-      json: parseJson,
-      text: parseText,
-      octetStream: parseOctetStream,
-    });
-
-    const data = await handleBodyMethod[ContentType[type]](response);
-    const result = {...options, data};
-
-    return response.ok ? result : Promise.reject(result);
-  };
+  async (type: ContentTypeString) =>
+    handleResponseBody(type, response, options);
 
 /**
- * Initialize the request response function.
+ * handle request responses.
+ *
+ * @param response — Response
+ * @param options — FetchOptions
+ */
+const handleResponse = (response: Response, options: FetchOptions) => {
+  const {status, statusText, url} = response;
+  const headers = {} as Record<string, string>;
+
+  for (const key of response.headers.keys()) {
+    Object.assign(headers, {[key]: response.headers.get(key)});
+  }
+
+  const contentType = headers['content-type'];
+  const handleResponseBody = initHandleResponseBody(response, {
+    status,
+    statusText,
+    headers,
+    url,
+    options,
+  });
+
+  if (contentType?.startsWith('application/json')) {
+    return handleResponseBody('JSON');
+  } else if (contentType?.startsWith('application/octet-stream')) {
+    return handleResponseBody('OCTET_STREAM');
+  } else if (contentType?.startsWith('text/html')) {
+    return handleResponseBody('TEXT');
+  } else if (contentType?.startsWith('text/plain')) {
+    return handleResponseBody('TEXT');
+  } else {
+    return handleResponseBody('TEXT');
+  }
+};
+
+/**
+ * Initialize the handle request response function.
  *
  * @param options — FetchOptions
  */
 export const initHandleResponse =
   (options: FetchOptions = {}) =>
-  (response: Response) => {
-    const {status, statusText, url} = response;
-    const headers = {} as Record<string, string>;
-
-    for (const key of response.headers.keys()) {
-      Object.assign(headers, {[key]: response.headers.get(key)});
-    }
-
-    const contentType = headers['content-type'];
-    const handleResponseBody = initHandleResponseBody(response, {
-      status,
-      statusText,
-      headers,
-      url,
-      options,
-    });
-
-    if (contentType?.startsWith('application/json')) {
-      return handleResponseBody('JSON');
-    } else if (contentType?.startsWith('application/octet-stream')) {
-      return handleResponseBody('OCTET_STREAM');
-    } else if (contentType?.startsWith('text/html')) {
-      return handleResponseBody('TEXT');
-    } else if (contentType?.startsWith('text/plain')) {
-      return handleResponseBody('TEXT');
-    } else {
-      return handleResponseBody('TEXT');
-    }
-  };
+  (response: Response) =>
+    handleResponse(response, options);

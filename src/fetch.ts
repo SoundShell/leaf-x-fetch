@@ -61,7 +61,6 @@ export const leafXFetch = (url: string, options: FetchOptions = {}) => {
   const fetchOptions = {timeout, ...requestInit};
   const handleResponse = initHandleResponse(fetchOptions);
   const handleError = initHandleRequestError(fetchOptions);
-
   const abortController = new AbortController();
   const signal = abortController.signal;
 
