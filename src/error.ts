@@ -1,12 +1,25 @@
 import {FetchOptions} from './fetch';
 
 /**
+ * Initialize the options for the request error handle function.
+ */
+export interface InitHandleRequestErrorOptions extends FetchOptions {
+  /**
+   * Request URL.
+   */
+  url: string;
+}
+
+/**
  * Handle request errors.
  *
  * @param error Error.
  * @param options Fetch options.
  */
-const handleRequestError = (error: unknown, options: FetchOptions) => {
+const handleRequestError = (
+  error: unknown,
+  options: InitHandleRequestErrorOptions
+) => {
   const relError = error as Record<string, unknown>;
   const isResponseError =
     relError.status && relError.statusText && relError.headers;
@@ -15,10 +28,7 @@ const handleRequestError = (error: unknown, options: FetchOptions) => {
     throw relError;
   }
 
-  throw Object.assign(new Error('Invalid request.'), {
-    data: {message: relError.message},
-    options,
-  });
+  throw Object.assign(relError, {options});
 };
 
 /**
@@ -27,5 +37,5 @@ const handleRequestError = (error: unknown, options: FetchOptions) => {
  * @param options Fetch options.
  */
 export const initHandleRequestError =
-  (options: FetchOptions) => (error: unknown) =>
+  (options: InitHandleRequestErrorOptions) => (error: unknown) =>
     handleRequestError(error, options);

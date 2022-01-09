@@ -4,14 +4,17 @@ import {initHandleRequestError} from '../src/error';
 describe('test/error.test.ts', () => {
   it('should request a code error', async () => {
     try {
-      const handleRequestError = initHandleRequestError({data: 'eC10b2tlbg=='});
-
-      handleRequestError({
-        message: 'Link failed, please check your local network.',
+      const handleRequestError = initHandleRequestError({
+        data: 'eC10b2tlbg==',
+        url: 'https://leaf-x.app',
       });
+
+      handleRequestError(
+        new Error('Link failed, please check your local network.')
+      );
     } catch (error) {
       assert(
-        (error as Record<string, Record<string, unknown>>).data.message ===
+        (error as Record<string, unknown>).message ===
           'Link failed, please check your local network.'
       );
     }
@@ -19,7 +22,10 @@ describe('test/error.test.ts', () => {
 
   it('should be a request response error', async () => {
     try {
-      const handleRequestError = initHandleRequestError({data: 'eC10b2tlbg=='});
+      const handleRequestError = initHandleRequestError({
+        data: 'eC10b2tlbg==',
+        url: 'https://leaf-x.app',
+      });
 
       handleRequestError({
         status: 400,

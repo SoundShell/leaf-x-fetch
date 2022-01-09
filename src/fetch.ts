@@ -11,7 +11,7 @@ import {handleRequestUrl} from './url';
  */
 export interface FetchOptions extends RequestInit {
   /**
-   * The timeout for executing the request, default is 3000 ms.
+   * The timeout for executing the request, default is 3000 milliseconds.
    */
   timeout?: number;
 
@@ -63,7 +63,7 @@ export const leafXFetch = (url: string, options: FetchOptions = {}) => {
     ...args,
   };
 
-  const fetchOptions = {timeout, ...requestInit};
+  const fetchOptions = {url: requestUrl, timeout, params, ...requestInit};
   const handleResponse = initHandleResponse(fetchOptions);
   const handleError = initHandleRequestError(fetchOptions);
   const abortController = new AbortController();

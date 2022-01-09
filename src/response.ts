@@ -40,13 +40,28 @@ export interface ResponseOptions {
 }
 
 /**
+ * Initialize the options for handle response functions.
+ */
+export interface InitHandleResponseOptions extends FetchOptions {
+  /**
+   * Request URL.
+   */
+  url: string;
+}
+
+/**
  * Initialize the options for handle response body functions.
  */
 export interface InitHandleResponseBodyOptions extends ResponseOptions {
   /**
    * Fetch options.
    */
-  options: FetchOptions;
+  options: FetchOptions & {
+    /**
+     * Request URL.
+     */
+    url: string;
+  };
 }
 
 /**
@@ -120,9 +135,12 @@ const initHandleResponseBody =
  * Handle responses.
  *
  * @param response This Fetch API interface represents the response to a request.
- * @param options Fetch options.
+ * @param options Initialize the options for handle response functions.
  */
-const handleResponse = (response: Response, options: FetchOptions) => {
+const handleResponse = (
+  response: Response,
+  options: InitHandleResponseOptions
+) => {
   const {status, statusText, url} = response;
   const headers = {} as Record<string, string>;
 
@@ -155,9 +173,8 @@ const handleResponse = (response: Response, options: FetchOptions) => {
 /**
  * Initialize the handle response function.
  *
- * @param [options={}] Fetch options.
+ * @param options Initialize the options for handle response functions.
  */
 export const initHandleResponse =
-  (options: FetchOptions = {}) =>
-  (response: Response) =>
+  (options: InitHandleResponseOptions) => (response: Response) =>
     handleResponse(response, options);

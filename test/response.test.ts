@@ -7,7 +7,7 @@ describe('test/response.test.ts', () => {
       headers: {'content-type': 'application/json; charset=utf-8'},
     });
 
-    const handleResponse = initHandleResponse();
+    const handleResponse = initHandleResponse({url: 'https://leaf-x.app'});
 
     await handleResponse(response).then(result =>
       assert(typeof result.data === 'object')
@@ -19,7 +19,7 @@ describe('test/response.test.ts', () => {
       headers: {'content-type': 'text/plain; charset=utf-8'},
     });
 
-    const handleResponse = initHandleResponse();
+    const handleResponse = initHandleResponse({url: 'https://leaf-x.app'});
 
     await handleResponse(response).then(result => assert(result.data === 'ok'));
   });
@@ -29,7 +29,7 @@ describe('test/response.test.ts', () => {
       headers: {'content-type': 'application/octet-stream; charset=utf-8'},
     });
 
-    const handleResponse = initHandleResponse();
+    const handleResponse = initHandleResponse({url: 'https://leaf-x.app'});
 
     await handleResponse(response).then(result =>
       assert(typeof result.data === 'object')
@@ -41,7 +41,9 @@ describe('test/response.test.ts', () => {
       headers: {'content-type': 'application/octet-stream; charset=utf-8'},
     });
 
-    await initHandleResponse()(response).then(result =>
+    const handleResponse = initHandleResponse({url: 'https://leaf-x.app'});
+
+    await handleResponse(response).then(result =>
       assert(typeof result.data === 'string')
     );
   });
@@ -51,7 +53,7 @@ describe('test/response.test.ts', () => {
       headers: {'content-type': 'text/html; charset=utf-8'},
     });
 
-    const handleResponse = initHandleResponse();
+    const handleResponse = initHandleResponse({url: 'https://leaf-x.app'});
 
     await handleResponse(response).then(result => assert(result.data === 'ok'));
   });
@@ -61,7 +63,7 @@ describe('test/response.test.ts', () => {
 
     response.headers.delete('content-type');
 
-    const handleResponse = initHandleResponse();
+    const handleResponse = initHandleResponse({url: 'https://leaf-x.app'});
 
     await handleResponse(response).then(result => assert(result.data === 'ok'));
   });
