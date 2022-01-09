@@ -9,9 +9,12 @@ import {FetchOptions} from './fetch';
 export const handleRequestBody = (
   data: FetchOptions['data'],
   body: FetchOptions['body']
-) =>
-  data
-    ? typeof data === 'object' && data !== null
-      ? JSON.stringify(data)
-      : data
-    : body;
+) => {
+  if (!data) {
+    return body;
+  }
+
+  return typeof data === 'object' && data !== null
+    ? JSON.stringify(data)
+    : data;
+};

@@ -131,7 +131,7 @@ const handleResponse = (response: Response, options: FetchOptions) => {
   }
 
   const contentType = headers['content-type'];
-  const handleResponseBody = initHandleResponseBody(response, {
+  const responseBody = initHandleResponseBody(response, {
     status,
     statusText,
     headers,
@@ -140,15 +140,15 @@ const handleResponse = (response: Response, options: FetchOptions) => {
   });
 
   if (contentType?.startsWith('application/json')) {
-    return handleResponseBody('JSON');
+    return responseBody('JSON');
   } else if (contentType?.startsWith('application/octet-stream')) {
-    return handleResponseBody('OCTET_STREAM');
+    return responseBody('OCTET_STREAM');
   } else if (contentType?.startsWith('text/html')) {
-    return handleResponseBody('TEXT');
+    return responseBody('TEXT');
   } else if (contentType?.startsWith('text/plain')) {
-    return handleResponseBody('TEXT');
+    return responseBody('TEXT');
   } else {
-    return handleResponseBody('TEXT');
+    return responseBody('TEXT');
   }
 };
 
