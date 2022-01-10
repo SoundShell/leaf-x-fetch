@@ -7,47 +7,47 @@ const BAD = 'good bye cruel world';
 
 describe('test/fetch.test.ts', () => {
   before(async () => {
-    nock('https://leaf-x.app').get('/default/succeed').reply(200, GOOD);
-    nock('https://leaf-x.app').get('/custom/succeed').reply(200, GOOD);
-    nock('https://leaf-x.app').get('/fail').reply(404, BAD);
-    nock('https://leaf-x.app').post('/json/succeed').reply(200, GOOD);
-    nock('https://leaf-x.app').post('/text/succeed').reply(200, GOOD);
+    nock('https://leaf-x.com').get('/default/succeed').reply(200, GOOD);
+    nock('https://leaf-x.com').get('/custom/succeed').reply(200, GOOD);
+    nock('https://leaf-x.com').get('/fail').reply(404, BAD);
+    nock('https://leaf-x.com').post('/json/succeed').reply(200, GOOD);
+    nock('https://leaf-x.com').post('/text/succeed').reply(200, GOOD);
   });
 
-  it('should be the default request.', async () => {
-    await leafXFetch('https://leaf-x.app/default/succeed').then(result =>
+  it('should be the default request', async () => {
+    await leafXFetch('https://leaf-x.com/default/succeed').then(result =>
       assert(result.data === GOOD)
     );
   });
 
-  it('should be the correct response to the request', async () => {
-    await leafXFetch('https://leaf-x.app/custom/succeed', {
+  it('should be a successful request', async () => {
+    await leafXFetch('https://leaf-x.com/custom/succeed', {
       timeout: 3000,
       headers: {token: 'QXV0aG9yaXphdGlvbg=='},
     }).then(result => assert(result.data === GOOD));
   });
 
-  it('should be an exception response to the request', async () => {
-    await leafXFetch('https://leaf-x.app/fail', {
+  it('should be an exception request', async () => {
+    await leafXFetch('https://leaf-x.com/fail', {
       timeout: 3000,
     }).catch(error => assert(error.status === 404));
   });
 
-  it('should be a request timeout', async () => {
-    await leafXFetch('https://www.leaf-x.app', {
+  it('should be a timeout request', async () => {
+    await leafXFetch('https://www.leaf-x.com', {
       timeout: 1,
     }).catch(error => assert(error.message === 'The user aborted a request.'));
   });
 
-  it('should be the JSON data of the response', async () => {
-    await leafXFetch('https://leaf-x.app/json/succeed', {
+  it('should be responding to a request for JSON data', async () => {
+    await leafXFetch('https://leaf-x.com/json/succeed', {
       method: 'POST',
       data: {leaf: 'OK'},
     }).then(result => assert(result.data === GOOD));
   });
 
-  it('should be the text data of the response', async () => {
-    await leafXFetch('https://leaf-x.app/text/succeed', {
+  it('should be responding to a request for text data', async () => {
+    await leafXFetch('https://leaf-x.com/text/succeed', {
       method: 'POST',
       data: 'ok',
     }).then(result => assert(result.data === GOOD));

@@ -1,7 +1,7 @@
 import {FetchOptions} from './fetch';
 
 /**
- * Request content type enumeration.
+ * Request content type.
  */
 export enum ContentType {
   JSON = 'json',
@@ -19,9 +19,9 @@ export type ContentTypeString = 'JSON' | 'TEXT' | 'OCTET_STREAM';
  */
 export interface ResponseOptions {
   /**
-   * Response headers information.
+   * Request header information.
    */
-  headers: Record<string, string>;
+  headers: FetchOptions['headers'];
 
   /**
    * Request response status code.
@@ -29,7 +29,7 @@ export interface ResponseOptions {
   status: number;
 
   /**
-   * Request response status code text description.
+   * Request response status code description text.
    */
   statusText: string;
 
@@ -40,7 +40,7 @@ export interface ResponseOptions {
 }
 
 /**
- * Initialize the options for handle response functions.
+ * Initialize the handle request response options.
  */
 export interface InitHandleResponseOptions extends FetchOptions {
   /**
@@ -50,11 +50,11 @@ export interface InitHandleResponseOptions extends FetchOptions {
 }
 
 /**
- * Initialize the options for handle response body functions.
+ * Initialize the handle request response body options.
  */
 export interface InitHandleResponseBodyOptions extends ResponseOptions {
   /**
-   * Fetch options.
+   * Fetch API options
    */
   options: FetchOptions & {
     /**
@@ -65,21 +65,21 @@ export interface InitHandleResponseBodyOptions extends ResponseOptions {
 }
 
 /**
- * Parsing JSON data.
+ * Parse JSON data for request response.
  *
  * @param response This Fetch API interface represents the response to a request.
  */
 const parseJson = (response: Response) => response.json();
 
 /**
- * Parsing text data.
+ * Parse the text data of the request response.
  *
  * @param response This Fetch API interface represents the response to a request.
  */
 const parseText = (response: Response) => response.text();
 
 /**
- * Parsing octal stream data.
+ * Parse the octet stream data of the request response.
  *
  * @param response This Fetch API interface represents the response to a request.
  */
@@ -97,11 +97,11 @@ const parseOctetStream = (response: Response) =>
   });
 
 /**
- * Handling the response body.
+ * Handle the request response body.
  *
  * @param type Request content type string.
  * @param response This Fetch API interface represents the response to a request.
- * @param options Initialize the options for handle response body functions.
+ * @param options Initialize the processing response body options.
  */
 const handleResponseBody = async (
   type: ContentTypeString,
@@ -121,10 +121,10 @@ const handleResponseBody = async (
 };
 
 /**
- * Initialize the function that handle the response body.
+ * Initialize the handle request response body.
  *
  * @param response This Fetch API interface represents the response to a request.
- * @param options Initialize the options for handle response body functions.
+ * @param options Initialize the processing response body options.
  */
 const initHandleResponseBody =
   (response: Response, options: InitHandleResponseBodyOptions) =>
@@ -132,10 +132,10 @@ const initHandleResponseBody =
     handleResponseBody(type, response, options);
 
 /**
- * Handle responses.
+ * Handle the request response.
  *
  * @param response This Fetch API interface represents the response to a request.
- * @param options Initialize the options for handle response functions.
+ * @param options Initialize the handle request response options.
  */
 const handleResponse = (
   response: Response,
@@ -171,9 +171,9 @@ const handleResponse = (
 };
 
 /**
- * Initialize the handle response function.
+ * Initialize the handle request response.
  *
- * @param options Initialize the options for handle response functions.
+ * @param options Initialize the handle request response options.
  */
 export const initHandleResponse =
   (options: InitHandleResponseOptions) => (response: Response) =>

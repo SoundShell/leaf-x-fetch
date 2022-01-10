@@ -1,10 +1,10 @@
 import {FetchOptions} from './fetch';
 
 /**
- * Handle request body.
+ *  Handle the request body.
  *
- * @param data A BodyInit object or null to set request's body.
- * @param body A BodyInit object or null to set request's body.
+ * @param data Body of the request, which is a BodyInit object or null.
+ * @param body Body of the request, which is a BodyInit object or null.
  */
 export const handleRequestBody = (
   data: FetchOptions['data'],

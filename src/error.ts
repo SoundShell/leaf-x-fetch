@@ -1,7 +1,7 @@
 import {FetchOptions} from './fetch';
 
 /**
- * Initialize the options for the request error handle function.
+ * Initialize the request error handle options.
  */
 export interface InitHandleRequestErrorOptions extends FetchOptions {
   /**
@@ -14,7 +14,7 @@ export interface InitHandleRequestErrorOptions extends FetchOptions {
  * Handle request errors.
  *
  * @param error Error.
- * @param options Fetch options.
+ * @param options Initialize the request error handle options.
  */
 const handleRequestError = (
   error: unknown,
@@ -32,9 +32,9 @@ const handleRequestError = (
 };
 
 /**
- * Initialize the request error handle function.
+ * Initialize the handle request error.
  *
- * @param options Fetch options.
+ * @param options Initialize the request error handle options.
  */
 export const initHandleRequestError =
   (options: InitHandleRequestErrorOptions) => (error: unknown) =>

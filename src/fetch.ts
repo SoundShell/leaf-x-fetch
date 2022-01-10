@@ -7,47 +7,51 @@ import {initHandleResponse} from './response';
 import {handleRequestUrl} from './url';
 
 /**
- * Fetch options.
+ * Fetch API options.
  */
 export interface FetchOptions extends RequestInit {
   /**
-   * The timeout for executing the request, default is 3000 milliseconds.
+   * Request timeout time.
+   *
+   * The default value is 3000 milliseconds.
    */
   timeout?: number;
 
   /**
-   * Execute the requested query parameters.
+   * Request query parameters.
    *
-   * The query parameter will be merged with the URL string parameter
-   * automatically, if the query parameter and the URL string parameter have
-   * the same key, then the query parameter will overwrite the URL string
-   * parameter.
+   * The query parameter will be merged with the URL string parameter,
+   * if the query parameter and the URL string parameter have the same key,
+   * then the query parameter will overwrite the URL string parameter.
    */
-  params?: Record<string, unknown>;
+  params?: Record<string, string>;
 
   /**
-   * A BodyInit object or null to set request's body.
+   * Body of the request., which is a BodyInit object or null.
    */
   data?: RequestInit['body'] | Record<string, unknown>;
 
   /**
-   * Request headers information.
+   * Request header information.
+   *
+   * The default 'content-type' is 'application/json; charset=utf-8'.
    */
   headers?: Record<string, string>;
 }
 
 /**
- * Fetch.
+ * The Fetch API provides a JavaScript interface for accessing and manipulating
+ * specific parts of the HTTP pipeline, such as requests and responses.
  *
  * @param url Request URL.
- * @param [options={}] Fetch options.
+ * @param options Fetch API options.
  */
 export const leafXFetch = (url: string, options: FetchOptions = {}) => {
   const {
     method = 'GET',
-    params = {},
+    params,
     timeout = 3000,
-    headers = {},
+    headers,
     data,
     body,
     ...args

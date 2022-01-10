@@ -2,11 +2,11 @@ import * as assert from 'assert';
 import {initHandleRequestError} from '../src/error';
 
 describe('test/error.test.ts', () => {
-  it('should request a code error', async () => {
+  it('should be handle local request errors', async () => {
     try {
       const handleRequestError = initHandleRequestError({
         data: 'eC10b2tlbg==',
-        url: 'https://leaf-x.app',
+        url: 'https://leaf-x.com',
       });
 
       handleRequestError(
@@ -20,11 +20,11 @@ describe('test/error.test.ts', () => {
     }
   });
 
-  it('should be a request response error', async () => {
+  it('should be handle request response errors', async () => {
     try {
       const handleRequestError = initHandleRequestError({
         data: 'eC10b2tlbg==',
-        url: 'https://leaf-x.app',
+        url: 'https://leaf-x.com',
       });
 
       handleRequestError({
