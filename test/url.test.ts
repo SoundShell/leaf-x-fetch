@@ -1,18 +1,29 @@
 import * as assert from 'assert';
+import {handleDefaults} from '../src';
 import {handleRequestUrl} from '../src/url';
 
 describe('test/url.test.ts', () => {
-  it('Should be handle URLs without parameters', async () => {
-    const result = handleRequestUrl('https://leaf-x.app', {params: {}});
+  it('should be handle URLs without parameters', async () => {
+    const result = handleRequestUrl('https://leaf-x.com', {params: {}});
 
-    assert(result === 'https://leaf-x.app/');
+    assert(result === 'https://leaf-x.com');
   });
 
   it('should be handle URLs with parameters', async () => {
-    const result = handleRequestUrl('https://leaf-x.app?test=test', {
+    const result = handleRequestUrl('https://leaf-x.com?test=test', {
       params: {name: 'bing'},
     });
 
-    assert(result === 'https://leaf-x.app/?test=test&name=bing');
+    assert(result === 'https://leaf-x.com?test=test&name=bing');
+  });
+
+  it('should be the handle path.', async () => {
+    handleDefaults({baseUrl: 'https://leaf-x.com'});
+
+    const result = handleRequestUrl('/v1/api?test=test', {
+      params: {name: 'bing'},
+    });
+
+    assert(result === 'https://leaf-x.com/v1/api?test=test&name=bing');
   });
 });

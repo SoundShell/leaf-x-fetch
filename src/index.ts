@@ -1,4 +1,5 @@
 export * from './body';
+export * from './defaults';
 export * from './error';
 export * from './fetch';
 export * from './headers';

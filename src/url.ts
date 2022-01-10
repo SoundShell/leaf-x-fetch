@@ -1,3 +1,4 @@
+import {DEFAULTS as defaults} from './defaults';
 import {FetchOptions} from './fetch';
 
 /**
@@ -20,8 +21,20 @@ export const handleRequestUrl = (
   url: string,
   {params = {}}: HandleRequestUrlOptions
 ) => {
-  const {searchParams, origin, pathname} = new URL(url);
-  const requestUrl = `${origin}${pathname}`;
+  const handleFullUrl = () => {
+    let fullUrl!: URL;
+
+    try {
+      fullUrl = new URL(url);
+    } catch (error) {
+      fullUrl = new URL(`${defaults.get('baseUrl')}${url}`);
+    }
+
+    return fullUrl;
+  };
+
+  const {searchParams, origin, pathname} = handleFullUrl();
+  const requestUrl = `${origin}${pathname !== '/' ? pathname : ''}`;
   const query = {} as Record<string, unknown>;
 
   for (const key of searchParams.keys()) {

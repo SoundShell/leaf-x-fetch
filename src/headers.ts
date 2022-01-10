@@ -1,3 +1,4 @@
+import {DEFAULTS as defaults} from './defaults';
 import {FetchOptions} from './fetch';
 
 /**
@@ -10,5 +11,6 @@ export const handleRequestHeaders = (
 ) => ({
   'content-type': 'application/json; charset=utf-8',
   accept: '*/*',
+  ...defaults.get('headers'),
   ...headers,
 });

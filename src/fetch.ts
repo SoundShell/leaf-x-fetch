@@ -1,6 +1,7 @@
 import {AbortController} from 'abort-controller';
 import 'isomorphic-fetch';
 import {handleRequestBody} from './body';
+import {DEFAULTS as defaults, handleDefaults} from './defaults';
 import {initHandleRequestError} from './error';
 import {handleRequestHeaders} from './headers';
 import {initHandleResponse} from './response';
@@ -40,17 +41,24 @@ export interface FetchOptions extends RequestInit {
 }
 
 /**
+ * Leaf-x fetch type.
+ */
+type LeafXFetchType = typeof relFetch & {
+  defaults: typeof handleDefaults;
+};
+
+/**
  * The Fetch API provides a JavaScript interface for accessing and manipulating
  * specific parts of the HTTP pipeline, such as requests and responses.
  *
  * @param url Request URL.
  * @param options Fetch API options.
  */
-export const leafXFetch = (url: string, options: FetchOptions = {}) => {
+const relFetch = (url: string, options: FetchOptions = {}) => {
   const {
     method = 'GET',
     params,
-    timeout = 3000,
+    timeout,
     headers,
     data,
     body,
@@ -67,15 +75,31 @@ export const leafXFetch = (url: string, options: FetchOptions = {}) => {
     ...args,
   };
 
-  const fetchOptions = {url: requestUrl, timeout, params, ...requestInit};
+  const requestTimeout = timeout ?? defaults.get('timeout') ?? 3000;
+  const fetchOptions = {
+    url: requestUrl,
+    timeout: requestTimeout,
+    params,
+    ...requestInit,
+  };
+
   const handleResponse = initHandleResponse(fetchOptions);
   const handleError = initHandleRequestError(fetchOptions);
   const abortController = new AbortController();
   const signal = abortController.signal;
 
-  setTimeout(() => abortController.abort(), timeout);
+  setTimeout(() => abortController.abort(), requestTimeout);
 
   return fetch(requestUrl, {signal, ...requestInit})
     .then(handleResponse)
     .catch(handleError);
 };
+
+/**
+ * Defines the request default parameter settings.
+ */
+Object.defineProperty(relFetch, 'defaults', {
+  value: handleDefaults,
+});
+
+export const leafXFetch = relFetch as LeafXFetchType;

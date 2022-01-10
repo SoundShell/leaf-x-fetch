@@ -22,14 +22,14 @@ describe('test/fetch.test.ts', () => {
 
   it('should be a successful request', async () => {
     await leafXFetch('https://leaf-x.com/custom/succeed', {
-      timeout: 3000,
+      timeout: 2000,
       headers: {token: 'QXV0aG9yaXphdGlvbg=='},
     }).then(result => assert(result.data === GOOD));
   });
 
   it('should be an exception request', async () => {
     await leafXFetch('https://leaf-x.com/fail', {
-      timeout: 3000,
+      timeout: 4000,
     }).catch(error => assert(error.status === 404));
   });
 
