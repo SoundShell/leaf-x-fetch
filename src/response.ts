@@ -21,7 +21,7 @@ export interface ResponseOptions {
   /**
    * Request header information.
    */
-  headers: FetchOptions['headers'];
+  headers: Record<string, string>;
 
   /**
    * Request response status code.
