@@ -1,7 +1,7 @@
 import * as assert from 'assert';
 import {DEFAULTS as defaults, handleDefaults} from '../src/defaults';
 
-describe('test/url.test.ts', () => {
+describe('test/defaults.test.ts', () => {
   it('should set the global default parameters.', async () => {
     handleDefaults({baseUrl: 'https://leaf-x.com'});
 
