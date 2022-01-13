@@ -1,4 +1,4 @@
-import assert = require('assert');
+import * as assert from 'assert';
 import {DEFAULTS as defaults, handleDefaults} from '../src/defaults';
 
 describe('test/url.test.ts', () => {

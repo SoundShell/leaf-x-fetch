@@ -1,4 +1,4 @@
-import {FetchOptions} from '.';
+import {FetchOptions} from './fetch';
 
 /**
  * Handle default options.

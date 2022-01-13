@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import {handleDefaults} from '../src';
+import {handleDefaults} from '../src/defaults';
 import {handleRequestUrl} from '../src/url';
 
 describe('test/url.test.ts', () => {
