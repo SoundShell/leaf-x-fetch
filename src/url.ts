@@ -6,7 +6,7 @@ import {FetchOptions} from './fetch';
  */
 export interface HandleRequestUrlOptions {
   /**
-   * Request query parameters.
+   * Request query params.
    */
   params?: FetchOptions['params'];
 }

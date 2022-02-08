@@ -19,7 +19,7 @@ export interface FetchOptions extends RequestInit {
   timeout?: number;
 
   /**
-   * Request query parameters.
+   * Request query params.
    *
    * The query parameter will be merged with the URL string parameter,
    * if the query parameter and the URL string parameter have the same key,
