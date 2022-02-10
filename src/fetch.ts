@@ -21,9 +21,9 @@ export interface FetchOptions extends RequestInit {
   /**
    * Request query params.
    *
-   * The query parameter will be merged with the URL string parameter,
-   * if the query parameter and the URL string parameter have the same key,
-   * then the query parameter will overwrite the URL string parameter.
+   * The query params will be merged with the URL string params,
+   * if the query params and the URL string params have the same key,
+   * then the query params will overwrite the URL string params.
    */
   params?: Record<string, string>;
 
@@ -96,7 +96,7 @@ const relFetch = (url: string, options: FetchOptions = {}) => {
 };
 
 /**
- * Defines the request default parameter settings.
+ * Defines the request default params settings.
  */
 Object.defineProperty(relFetch, 'defaults', {
   value: handleDefaults,

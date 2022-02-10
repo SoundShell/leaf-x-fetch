@@ -29,7 +29,7 @@ describe('test/error.test.ts', () => {
 
       handleRequestError({
         status: 400,
-        statusText: 'Parameter error',
+        statusText: 'Params error',
         headers: {},
       });
     } catch (error) {

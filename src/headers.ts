@@ -4,7 +4,7 @@ import {FetchOptions} from './fetch';
 /**
  * Handle the request headers information.
  *
- * @param [headers={}] Request header information.
+ * @param [headers={}] Request headers information.
  */
 export const handleRequestHeaders = (
   headers: FetchOptions['headers'] = {}
