@@ -19,7 +19,7 @@ export type ContentTypeString = 'JSON' | 'TEXT' | 'OCTET_STREAM';
  */
 export interface ResponseOptions {
   /**
-   * Request header information.
+   * Request headers information.
    */
   headers: Record<string, string>;
 
@@ -108,13 +108,13 @@ const handleResponseBody = async (
   response: Response,
   options: InitHandleResponseBodyOptions
 ) => {
-  const handleBodyMethod = Object.freeze({
+  const handleBodyMethods = Object.freeze({
     json: parseJson,
     text: parseText,
     octetStream: parseOctetStream,
   });
 
-  const data = await handleBodyMethod[ContentType[type]](response);
+  const data = await handleBodyMethods[ContentType[type]](response);
   const result = {...options, data};
 
   return response.ok ? result : Promise.reject(result);

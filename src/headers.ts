@@ -2,7 +2,7 @@ import {DEFAULTS as defaults} from './defaults';
 import {FetchOptions} from './fetch';
 
 /**
- * Handle the request header information.
+ * Handle the request headers information.
  *
  * @param [headers={}] Request header information.
  */

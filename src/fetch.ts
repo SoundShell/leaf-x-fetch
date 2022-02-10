@@ -28,12 +28,12 @@ export interface FetchOptions extends RequestInit {
   params?: Record<string, string>;
 
   /**
-   * Body of the request., which is a BodyInit object or null.
+   * Body of the request, which is a BodyInit object or null.
    */
   data?: RequestInit['body'] | Record<string, unknown>;
 
   /**
-   * Request header information.
+   * Request headers information.
    *
    * The default 'content-type' is 'application/json; charset=utf-8'.
    */

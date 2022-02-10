@@ -14,7 +14,7 @@ describe('test/response.test.ts', () => {
     );
   });
 
-  it('should be a text data response.', async () => {
+  it('should be a text data response', async () => {
     const response = new Response('ok', {
       headers: {'content-type': 'text/plain; charset=utf-8'},
     });

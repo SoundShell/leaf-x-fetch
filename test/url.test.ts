@@ -17,7 +17,7 @@ describe('test/url.test.ts', () => {
     assert(result === 'https://leaf-x.com?test=test&name=bing');
   });
 
-  it('should be the handle path.', async () => {
+  it('should be the handle path', async () => {
     handleDefaults({baseUrl: 'https://leaf-x.com'});
 
     const result = handleRequestUrl('/v1/api?test=test', {
