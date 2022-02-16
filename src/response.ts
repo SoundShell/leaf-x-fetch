@@ -21,7 +21,7 @@ export interface ResponseOptions {
   /**
    * Request headers information.
    */
-  headers: Record<string, string | string[]>;
+  headers: Record<string, string>;
 
   /**
    * Request response status code.
@@ -142,13 +142,13 @@ const handleResponse = (
   options: InitHandleResponseOptions
 ) => {
   const {status, statusText, url} = response;
-  const headers = {} as Record<string, string | string[]>;
+  const headers = {} as Record<string, string>;
 
   for (const key of response.headers.keys()) {
     Object.assign(headers, {[key]: response.headers.get(key)});
   }
 
-  const contentType = headers['content-type'] as string;
+  const contentType = headers['content-type'];
   const responseBody = initHandleResponseBody(response, {
     status,
     statusText,

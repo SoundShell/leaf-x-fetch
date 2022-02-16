@@ -1,6 +1,6 @@
 {
   "name": "@leaf-x/fetch",
-  "version": "2.5.7",
+  "version": "2.5.10",
   "main": "./dist/src/index.js",
   "author": "sound shell <sound_shell@outlook.com>",
   "description": "Provide some utility wrappers for fetch.",
@@ -57,9 +57,9 @@
     "clean": "gts clean",
     "compile": "tsc",
     "fix": "gts fix",
-    "prepare": "yarn run compile",
-    "pretest": "yarn run compile",
-    "posttest": "yarn run lint"
+    "prepare": "yarn compile",
+    "pretest": "yarn compile",
+    "posttest": "yarn lint"
   },
   "engines": {
     "node": ">=11.0.0"
