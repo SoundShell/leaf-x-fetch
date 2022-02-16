@@ -13,7 +13,7 @@ export interface HandleDefaultsOptions {
   baseUrl?: string;
 
   /**
-   * Request headers information.
+   * A Headers object, an object literal, or an array of two-item arrays to set request's headers.
    */
   headers?: FetchOptions['headers'];
 
