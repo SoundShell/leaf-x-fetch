@@ -108,13 +108,13 @@ const handleResponseBody = async (
   response: Response,
   options: InitHandleResponseBodyOptions
 ) => {
-  const handleBodyMethods = Object.freeze({
+  const handleBody = {
     json: parseJson,
     text: parseText,
     octetStream: parseOctetStream,
-  });
+  };
 
-  const data = await handleBodyMethods[ContentType[type]](response);
+  const data = await handleBody[ContentType[type]](response);
   const result = {...options, data};
 
   return response.ok ? result : Promise.reject(result);
