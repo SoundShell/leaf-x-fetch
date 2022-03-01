@@ -13,9 +13,10 @@ describe('test/error.test.ts', () => {
         new Error('Link failed, please check your local network.')
       );
     } catch (error) {
+      const relError = error as Record<string, unknown>;
+
       assert(
-        (error as Record<string, unknown>).message ===
-          'Link failed, please check your local network.'
+        relError.message === 'Link failed, please check your local network.'
       );
     }
   });
@@ -33,7 +34,9 @@ describe('test/error.test.ts', () => {
         headers: {},
       });
     } catch (error) {
-      assert((error as Record<string, unknown>).status === 400);
+      const relError = error as Record<string, unknown>;
+
+      assert(relError.status === 400);
     }
   });
 });
