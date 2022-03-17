@@ -1,4 +1,4 @@
-import {AbortController} from 'abort-controller';
+import AbortController from 'abort-controller';
 import 'isomorphic-fetch';
 import {handleRequestBody} from './body';
 import {DEFAULTS as defaults, handleDefaults} from './defaults';

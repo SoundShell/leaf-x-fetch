@@ -7,12 +7,13 @@ export enum ContentType {
   JSON = 'json',
   TEXT = 'text',
   OCTET_STREAM = 'octetStream',
+  FILE = 'file',
 }
 
 /**
  * Request content type string.
  */
-export type ContentTypeString = 'JSON' | 'TEXT' | 'OCTET_STREAM';
+export type ContentTypeString = 'JSON' | 'TEXT' | 'OCTET_STREAM' | 'FILE';
 
 /**
  * Request response options.
@@ -79,6 +80,13 @@ const parseJson = (response: Response) => response.json();
 const parseText = (response: Response) => response.text();
 
 /**
+ * Parse request file stream data response.
+ *
+ * @param response This Fetch API interface represents the response to a request.
+ */
+const parseFile = (response: Response) => response.blob();
+
+/**
  * Parse the octet stream data of the request response.
  *
  * @param response This Fetch API interface represents the response to a request.
@@ -112,6 +120,7 @@ const handleResponseBody = async (
     json: parseJson,
     text: parseText,
     octetStream: parseOctetStream,
+    file: parseFile,
   };
 
   const data = await handleBody[ContentType[type]](response);
@@ -165,6 +174,8 @@ const handleResponse = (
     return responseBody('TEXT');
   } else if (contentType?.startsWith('text/plain')) {
     return responseBody('TEXT');
+  } else if (contentType?.startsWith('application/vnd.ms-excel')) {
+    return responseBody('FILE');
   } else {
     return responseBody('TEXT');
   }
