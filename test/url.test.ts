@@ -14,7 +14,7 @@ describe('test/url.test.ts', () => {
       params: {name: 'bing'},
     });
 
-    assert(result === 'https://leaf-x.com?test=test&name=bing');
+    assert(result === 'https://leaf-x.com?test%3Dtest%26name%3Dbing');
   });
 
   it('should be the handle path', async () => {
@@ -24,6 +24,6 @@ describe('test/url.test.ts', () => {
       params: {name: 'bing'},
     });
 
-    assert(result === 'https://leaf-x.com/v1/api?test=test&name=bing');
+    assert(result === 'https://leaf-x.com/v1/api?test%3Dtest%26name%3Dbing');
   });
 });

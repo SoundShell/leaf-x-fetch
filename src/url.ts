@@ -9,6 +9,11 @@ export interface HandleRequestUrlOptions {
    * Request query params.
    */
   params?: FetchOptions['params'];
+
+  /**
+   * Whether to encode URLs or not.
+   */
+  isEncode?: FetchOptions['isEncode'];
 }
 
 /**
@@ -19,7 +24,7 @@ export interface HandleRequestUrlOptions {
  */
 export const handleRequestUrl = (
   url: string,
-  {params = {}}: HandleRequestUrlOptions
+  {params = {}, isEncode = true}: HandleRequestUrlOptions
 ) => {
   const handleFullUrl = () => {
     let fullUrl!: URL;
@@ -42,11 +47,13 @@ export const handleRequestUrl = (
   }
 
   const queryParams = {...query, ...params};
-  const paramsString = encodeURI(
-    Object.keys(queryParams)
-      .map(key => `${key}=${queryParams[key]}`)
-      .join('&')
-  );
+  const paramsString = Object.keys(queryParams)
+    .map(key => `${key}=${queryParams[key]}`)
+    .join('&');
 
-  return paramsString ? `${requestUrl}?${paramsString}` : requestUrl;
+  const paramsResult = isEncode
+    ? encodeURIComponent(paramsString)
+    : paramsString;
+
+  return paramsString ? `${requestUrl}?${paramsResult}` : requestUrl;
 };

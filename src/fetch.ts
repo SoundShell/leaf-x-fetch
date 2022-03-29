@@ -31,6 +31,18 @@ export interface FetchOptions extends RequestInit {
    * Body of the request, which is a BodyInit object or null.
    */
   data?: RequestInit['body'] | Record<string, unknown>;
+
+  /**
+   * Whether to encode URLs or not.
+   */
+  isEncode?: boolean;
+
+  /**
+   * The AbortController.
+   *
+   * @see — https://dom.spec.whatwg.org/#abortcontroller
+   */
+  abortController?: AbortController;
 }
 
 /**
@@ -55,12 +67,14 @@ const relFetch = (url: string, options: FetchOptions = {}) => {
     headers,
     data,
     body,
+    isEncode,
+    abortController,
     ...args
   } = options;
 
   const requestHeaders = handleRequestHeaders(headers);
   const requestBody = handleRequestBody(data, body);
-  const requestUrl = handleRequestUrl(url, {params});
+  const requestUrl = handleRequestUrl(url, {params, isEncode});
   const requestInit = {
     method,
     headers: requestHeaders,
@@ -78,13 +92,16 @@ const relFetch = (url: string, options: FetchOptions = {}) => {
 
   const handleResponse = initHandleResponse(fetchOptions);
   const handleError = initHandleRequestError(fetchOptions);
-  const abortController = new AbortController();
-  const signal = abortController.signal;
-
-  setTimeout(() => abortController.abort(), requestTimeout);
+  const abort = abortController ?? new AbortController();
+  const signal = abort.signal;
+  const timer = setTimeout(() => abort.abort(), requestTimeout);
 
   return fetch(requestUrl, {signal, ...requestInit})
-    .then(handleResponse)
+    .then(response => {
+      clearTimeout(timer);
+
+      return handleResponse(response);
+    })
     .catch(handleError);
 };
 
