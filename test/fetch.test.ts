@@ -23,7 +23,10 @@ describe('test/fetch.test.ts', () => {
   it('should be a successful request', async () => {
     await leafXFetch('https://leaf-x.com/custom/succeed', {
       timeout: 2000,
-      headers: {token: 'QXV0aG9yaXphdGlvbg=='},
+      headers: {
+        token: 'QXV0aG9yaXphdGlvbg==',
+        'content-type': 'multipart/form-data',
+      },
     }).then(result => assert(result.data === GOOD));
   });
 

@@ -30,7 +30,7 @@ export interface FetchOptions extends RequestInit {
   /**
    * Body of the request, which is a BodyInit object or null.
    */
-  data?: RequestInit['body'] | Record<string, unknown>;
+  data?: RequestInit['body'] | any;
 
   /**
    * Whether to encode URLs or not.
@@ -73,7 +73,7 @@ const relFetch = (url: string, options: FetchOptions = {}) => {
   } = options;
 
   const requestHeaders = handleRequestHeaders(headers);
-  const requestBody = handleRequestBody(data, body);
+  const requestBody = handleRequestBody({body, data, headers: requestHeaders});
   const requestUrl = handleRequestUrl(url, {params, isEncode});
   const requestInit = {
     method,

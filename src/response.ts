@@ -48,6 +48,11 @@ export interface InitHandleResponseOptions extends FetchOptions {
    * Request URL.
    */
   url: string;
+
+  /**
+   * Request headers.
+   */
+  headers?: Record<string, string>;
 }
 
 /**
