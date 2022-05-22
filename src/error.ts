@@ -24,6 +24,10 @@ const handleRequestError = (
   const isResponseError =
     relError.status && relError.statusText && relError.headers;
 
+  if (relError.message === 'Aborted') {
+    throw Object.assign(new Error('Request Timeout'), {status: 408});
+  }
+
   if (isResponseError) {
     throw relError;
   }
